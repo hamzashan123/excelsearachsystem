@@ -19,7 +19,7 @@
                     </select>
 
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2 create">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                         Create
                     </button>
