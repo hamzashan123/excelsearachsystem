@@ -192,3 +192,13 @@ table.dataTable thead .sorting_desc {
     font-size: 20px;
     font-weight: bold;
 }
+
+.col-md-2.create {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.col-md-2.create button {
+    width: 100%;
+}
