@@ -12,9 +12,9 @@
             <div class="col-md-10">
             <label for="customer"> Add Customers*
               
-            <select name="customer" id="customer" class="form-control select2"  required>
+            <select name="customer_name" id="customer_name" class="form-control select2"  required>
                 @foreach($customers as $id => $customer)
-                    <option value="{{ $customer->id }}">{{ $customer->first_name }} {{  $customer->last_name}}</option>
+                    <option value="{{ $customer->first_name }} {{  $customer->last_name}}">{{ $customer->first_name }} {{  $customer->last_name}}</option>
                 @endforeach
             </select>
            
