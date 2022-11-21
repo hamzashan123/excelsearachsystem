@@ -10,13 +10,13 @@
             @csrf
             <div class="row">
                 <div class="col-md-10">
-                    <label for="customer"> Select Customer*
+                    <label for="customer"> Select Customer* </label>
 
-                        <select name="customer" id="customer" class="form-control select2" required>
-                            @foreach($customers as $id => $customer)
-                            <option value="{{ $customer->id }}">{{ $customer->first_name }} {{ $customer->last_name}}</option>
-                            @endforeach
-                        </select>
+                    <select name="customer" id="customer" class="form-control select2" required>
+                        @foreach($customers as $id => $customer)
+                        <option value="{{ $customer->id }}">{{ $customer->first_name }} {{ $customer->last_name}}</option>
+                        @endforeach
+                    </select>
 
                 </div>
                 <div class="col-md-2">
