@@ -37,7 +37,7 @@
             <div class="pos-a centerXY">
                 <div class="bgc-white bdrs-50p pos-r" style="width:120px;height:120px">
                     <!-- <img class="pos-a centerXY" src="/assets/static/images/logo.png" alt=""> -->
-                    <h5>Title Search Company</h5>
+                    <h5>Data Entry System</h5>
                 </div>
             </div>
         </div>

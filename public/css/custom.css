@@ -182,3 +182,13 @@ table.dataTable thead .sorting_desc {
 .card-block {
     padding: 20px !important;
 }
+
+.header .header-container .nav-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin-right: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
