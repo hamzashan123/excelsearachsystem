@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Purchaser;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
     public function list(){
         $purchases = Purchaser::all();
-
-        return view('admin.purchase.index',compact('purchases'));
+        $customers = DB::table('customers')->get();
+        return view('admin.purchase.index',compact('purchases','customers'));
     }
 
     public function create(Request $request){
