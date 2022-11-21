@@ -1,4 +1,5 @@
 ﻿@extends('layouts.admin')
+
 @section('content')
 <div class="container">
 <h6 class="c-grey-900">
@@ -8,17 +9,23 @@
     <form action="{{ route("admin.purchaser.create") }}" method="POST" enctype="multipart/form-data">
         @csrf
             <div class="row">
-            <div class="col-sm">
-                     
-                     <label for="name">Add Customer*</label>
-                     <input type="text" name="customer_name" class="form-control " placeholder="eg. John Doe">
-                             </div>
-                    
-            <div class="col-sm">
-                     
-            <label for="name">Search For the Customer*</label>
-            <input type="text" id="name" name="name" class="form-control">
-                    </div>
+            <div class="col-md-10">
+            <label for="customer"> Add Customers*
+              
+            <select name="customer" id="customer" class="form-control select2"  required>
+                @foreach($customers as $id => $customer)
+                    <option value="{{ $customer->id }}">{{ $customer->first_name }} {{  $customer->last_name}}</option>
+                @endforeach
+            </select>
+           
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                Create 
+                </button>
+            </div>
+           
+            
             </div>
             <br>
             <div class="row">
@@ -203,11 +210,70 @@
         </table>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Customer</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <div class="row">
+                    <div class="col-md-6">
+                     
+            <label for="name">First Name*</label>
+            <input type="text" id="first_name" name="first_name" class="form-control"  required>
+                    </div>
+                    <div class="col-md-6">
+                    <label for="name">Last Name*</label>
+                        <input type="text" id="last_name" name="last_name" class="form-control"  required>
+                    </div>
+                    <div class="col-md-6">
+                    <label for="name">Gender*</label>
+                    <select name="gender" id="gender" class="form-control"  required>
+                            <option value="" selected>Select Gender</option>  
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                    </select>
+                    </div>
+                    <div class="col-md-6">
+                    <label for="name">Email*</label>
+                        <input type="email" id="email" name="email" class="form-control"  required>
+                    </div>
+                    <div class="col-md-6">
+                    <label for="name">Phone*</label>
+                        <input type="tel" id="phone" name="phone" class="form-control"  required>
+                    </div>
+                    <div class="col-md-6">
+                    <label for="name">Address*</label>
+                        <input type="text" id="address" name="address" class="form-control"  required>
+                    </div>
+                    <div class="col-md-12">
+                    <label for="name">Company*</label>
+                        <input type="text" id="company" name="company" class="form-control"  required>
+                    </div>
+                    <div class="col-md-12">
+                    <label for="name">Notes*</label>
+                        <textarea name="notes" class="form-control"></textarea>
+                    </div>
+            </div>
+      </div>
+      <div class="modal-footer">
        
+        <button type="button" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 @section('scripts')
 @parent
 <script>
+
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 @can('user_delete')
@@ -250,6 +316,7 @@
             .columns.adjust();
     });
 })
+
 
 </script>
 @endsection
