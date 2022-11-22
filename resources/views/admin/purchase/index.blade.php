@@ -12,7 +12,7 @@
                 <div class="col-md-10">
                     <label for="customer"> Select Customer* </label>
 
-                    <select name="customer" id="customer" class="form-control select2" required>
+                    <select name="customer_name" id="customer_name" class="form-control select2" required>
                         @foreach($customers as $id => $customer)
                         <option value="{{ $customer->first_name }} {{ $customer->last_name}}">{{ $customer->first_name }} {{ $customer->last_name}}</option>
                         @endforeach
@@ -52,7 +52,7 @@
                 </div>
                 <div class="col-sm">
                     <label for="name">Search or Add Manufacturer*</label>
-                    <input type="text" id="manufacturer" name="manufacturer" class="form-control" required>
+                    <input type="text" id="manufacturer" name="manufacturer" class="form-control" >
                 </div>
                 <div class="col-sm">
                     <label for="name">Status*</label>
@@ -64,16 +64,16 @@
             <div class="row">
                 <div class="col-sm">
 
-                    <label for="name">Selling Price*</label>
-                    <input type="text" id="selling_price" name="selling_price" class="form-control" required>
+                    <label for="name">Selling Price</label>
+                    <input type="text" id="selling_price" name="selling_price" class="form-control" >
                 </div>
                 <div class="col-sm">
-                    <label for="name">Currency*</label>
-                    <input type="text" id="currency" name="currency" class="form-control" required>
+                    <label for="name">Currency</label>
+                    <input type="text" id="currency" name="currency" class="form-control" >
                 </div>
                 <div class="col-sm">
-                    <label for="name">Tracking Number*</label>
-                    <input type="text" id="tracking_number" name="tracking_number" class="form-control" required>
+                    <label for="name">Tracking Number</label>
+                    <input type="text" id="tracking_number" name="tracking_number" class="form-control" >
                 </div>
             </div>
 
@@ -81,17 +81,36 @@
             <div class="row">
                 <div class="col-sm">
 
-                    <label for="name">Description*</label>
-                    <input type="text" id="description" name="description" class="form-control" required>
+                    <label for="name">Description</label>
+                    <input type="text" id="description" name="description" class="form-control" >
                 </div>
                 <div class="col-sm">
-                    <label for="name">Notes*</label>
-                    <input type="text" id="notes" name="notes" class="form-control" required>
+                    <label for="name">Notes</label>
+                    <input type="text" id="notes" name="notes" class="form-control" >
                 </div>
                 <div class="col-sm">
-                    <label for="name">Expected Delivery*</label>
-                    <input type="date" id="expected_delivery" name="expected_delivery" class="form-control" required>
+                    <label for="name">Expected Delivery</label>
+                    <input type="date" id="expected_delivery" name="expected_delivery" class="form-control" >
                 </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-4">
+
+                    <label for="name">Purchase Method*</label>
+                    <select type="text" id="purchase_method" name="purchase_method" class="form-control" required>
+                        <option value="eBay"> eBay</option>
+                        <option value="Website"> Website</option>
+                        <option value="BACS"> BACS</option>
+                        <option value="Paypal"> Paypal</option>
+                        <option value="Cash"> Cash</option>
+                        <option value="Whatsapp"> Whatsapp</option>
+                        <option value="Email"> Email</option>
+                        <option value="Alibaba"> Alibaba</option>
+                        <option value="Ali Express"> Ali Express</option>
+                    </select>
+                </div>
+               
             </div>
 
             <br>
@@ -150,6 +169,9 @@
                     <th>
                         Expected Delivery
                     </th>
+                    <th>
+                        Purchase Method
+                    </th>
 
                 </tr>
             </thead>
@@ -203,6 +225,9 @@
                     <td>
                         {{ $purchase->expected_delivery ?? '' }}
                     </td>
+                    <td>
+                        {{ $purchase->purchase_method ?? '' }}
+                    </td>
 
                 </tr>
                 @endforeach
@@ -222,6 +247,8 @@
                 </button>
             </div>
             <div class="modal-body">
+                <form action="{{route('admin.purchaser.createcustomer')}}" method="post">    
+                    @csrf
                 <div class="row">
                     <div class="col-md-6">
 
@@ -264,8 +291,9 @@
             </div>
             <div class="modal-footer">
 
-                <button type="button" class="btn btn-primary">Save</button>
+                <input type="submit" class="btn btn-primary" value="Submit">
             </div>
+</form>
         </div>
     </div>
 </div>
