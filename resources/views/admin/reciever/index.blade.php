@@ -1,11 +1,12 @@
 ﻿@extends('layouts.admin')
+
 @section('content')
 <div class="container">
 <h6 class="c-grey-900">
    Recieving
 </h6>
 <div class="mT-30">
-    <form action="{{ route("admin.purchaser.create") }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route("admin.reciever.search") }}" method="POST" enctype="multipart/form-data">
         @csrf
         
            
@@ -13,15 +14,15 @@
                     <div class="col-sm">
                      
             <label for="name">Search by Tracking</label>
-            <input type="text" id="quantity" name="quantity" class="form-control"  required>
+            <input type="text" id="tracking_number" name="tracking_number" class="form-control"  >
                     </div>
                     <div class="col-sm">
                     <label for="name">Search by Part Number</label>
-            <input type="text" id="manufacturer" name="manufacturer" class="form-control"  required>
+            <input type="text" id="part_number" name="part_number" class="form-control"  >
                     </div>
                     <div class="col-sm">
                     <label for="name">Search by Company Name</label>
-                    <input type="text" name="status" class="form-control" >
+                    <input type="text" name="purchased_from" class="form-control" >
                     </div>
             </div>
 
@@ -30,11 +31,26 @@
                     <div class="col-sm">
                      
             <label for="name">Search by Order Date</label>
-            <input type="date" id="selling_price" name="selling_price" class="form-control"  required>
+            <input type="date" id="order_number" name="order_number" class="form-control"  >
                     </div>
                     <div class="col-sm">
                     <label for="name">Search by Quantity</label>
-            <input type="text" id="currency" name="currency" class="form-control"  required>
+            <input type="text" id="quantity" name="quantity" class="form-control"  >
+                    </div>
+                    <div class="col-sm-4">
+
+                    <label for="name">Purchase Method*</label>
+                    <select type="text" id="purchase_method" name="purchase_method" class="form-control" >
+                        <option value="eBay"> eBay</option>
+                        <option value="Website"> Website</option>
+                        <option value="BACS"> BACS</option>
+                        <option value="Paypal"> Paypal</option>
+                        <option value="Cash"> Cash</option>
+                        <option value="Whatsapp"> Whatsapp</option>
+                        <option value="Email"> Email</option>
+                        <option value="Alibaba"> Alibaba</option>
+                        <option value="Ali Express"> Ali Express</option>
+                    </select>
                     </div>
 
             </div>
@@ -48,99 +64,164 @@
     </form>
 </div>
     <br>
-<div class="table-responsive">
+    <div class="table-responsive">
         <table class=" table table-bordered table-striped table-hover datatable datatable-User">
             <thead>
-            <tr>
-                <th width="10">
-                            #
-                </th>
-                <th>
-                    Customer Name
-                </th>
-                <th>
-                    Part Number
-                </th>
-                <th>
-                    Purchase Date
-                </th>
-                <th>
-                    Cost
-                </th>
-                <th>
-                    Quantity
-                </th>
-                <th>
-                    Manufacturer
-                </th>
-               
-                <th>
-                    Status
-                </th>
-                <th>
-                Selling Price
-                </th>
-                <th>
-                Currency
-                </th>
-                <th>
-                Tracking Number
-                </th>
-                <th>
-                Description
-                </th>
-                <th>
-                Notes
-                </th>
-                <th>
-                    Expected Delivery
-                </th>
-              
-            </tr>
+                <tr>
+                    <th width="10">
+                        #
+                    </th>
+                    @if(Auth::user()->roles[0]->title == 'Reciever')
+                    <th>
+                        Action
+                    </th>
+                    @endif
+                    <th>
+                        Purchase Date
+                    </th>
+                    <th>
+                        Date Recieved
+                    </th>
+                    <th>
+                        Order Number
+                    </th>
+                    <th>
+                        Part Number
+                    </th>
+                    <th>
+                        Manufacturer
+                    </th>
+                    <th>
+                        Cost Price
+                    </th>
+                    <th>
+                        Purchased From
+                    </th>
+                    <th>
+                        Purchased Method
+                    </th>
+                    <th>
+                        Quantity Ordered
+                    </th>
+                        
+                    <th>
+                        Quantity Recieved
+                    </th>
+                    <th>
+                        Missing Qty
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Quality
+                    </th>
+                    <th>
+                        Selling Price
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Serial Number
+                    </th>
+                    <th>
+                        Tracking Number
+                    </th>
+                    <th>
+                        Purchase Currency
+                    </th>
+                    <th>
+                        Company Purchased From
+                    </th>
+                    <th>
+                        Notes
+                    </th>
+                    <th>
+                        Expected Delivery
+                    </th>
+
+                </tr>
             </thead>
             <tbody>
-            @foreach($purchases as $key => $purchase)
+                @foreach($purchases as $key => $purchase)
                 <tr data-entry-id="{{ $purchase->id }}">
                     <td>
-                        
+
+                    </td>
+                    @if(Auth::user()->roles[0]->title == 'Reciever')
+                    <td>
+                    <a class="btn btn-xs btn-info update_data" data-id="{{$purchase->id}}" href="#">
+                                {{ trans('global.edit') }}
+                            </a>
+                    </td>
+                    @endif
+                    <td>
+                        {{ $purchase->purchase_date ?? '' }}
+
                     </td>
                     <td>
-                        {{ $purchase->customer_name ?? '' }}
                         
+                        {{ \Carbon\Carbon::parse($purchase->date_recieved)->format('Y-m-d') ?? '' }}
+                    </td>
+                    <td>
+                        {{ $purchase->order_number ?? '' }}
+
                     </td>
                     <td>
                         {{ $purchase->part_number ?? '' }}
-                        
-                    </td>
-                    <td>
-                        {{ $purchase->purchase_date ?? '' }}
-                       
-                    </td>
-                    <td>
-                        {{ $purchase->cost ?? '' }}
-                       
-                    </td>
-                    <td>
-                        {{ $purchase->quantity ?? '' }}
-                       
+
                     </td>
                     <td>
                         {{ $purchase->manufacturer ?? '' }}
                     </td>
                     <td>
+                        {{ $purchase->cost ?? '' }}
+
+                    </td>
+                    <td>
+                        {{ $purchase->purchased_from ?? '' }}
+
+                    </td>
+                    <td>
+                        {{ $purchase->purchase_method ?? '' }}
+                    </td>
+                    <td>
+                        {{ $purchase->quantity ?? '' }}
+
+                    </td>
+                    <td>
+                        {{ $purchase->quantity_recieved ?? '' }}
+
+                    </td>
+                    <td>
+                        {{ $purchase->quantity_missing ?? '' }}
+
+                    </td>
+                    
+                    <td>
                         {{ $purchase->status ?? '' }}
+                    </td>
+                    <td>
+                        {{ $purchase->quality ?? '' }}
                     </td>
                     <td>
                         {{ $purchase->selling_price ?? '' }}
                     </td>
                     <td>
-                        {{ $purchase->currency ?? '' }}
+                        {{ $purchase->description ?? '' }}
+                    </td>
+                    <td>
+                        {{ $purchase->serial_number ?? '' }}
                     </td>
                     <td>
                         {{ $purchase->tracking_number ?? '' }}
                     </td>
                     <td>
-                        {{ $purchase->description ?? '' }}
+                        {{ $purchase->currency ?? '' }}
+                    </td>
+                    <td>
+                        {{ $purchase->company_purchased_from ?? '' }}
                     </td>
                     <td>
                         {{ $purchase->notes ?? '' }}
@@ -148,17 +229,167 @@
                     <td>
                         {{ $purchase->expected_delivery ?? '' }}
                     </td>
+                    
 
                 </tr>
-            @endforeach
+                @endforeach
             </tbody>
         </table>
     </div>
+ 
+    
+    <div class="modal fade" id="updatePurchase" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{route('admin.reciever.update')}}" method="post">    
+                    @csrf
+                <div class="row">
+                   
+                        <input type="hidden" id="edit_data_id" name="edit_data_id" />
+                
+                    <div class="col-md-6">
+                        <label for="name">Date Recieved*</label>
+                        <input type="date" id="edit_date_recieved" name="edit_date_recieved" class="form-control" >
+                    </div>
+                    <div class="col-md-6">
+                        <label for="name">Order Number*</label>
+                        <input type="text" id="edit_order_number" name="edit_order_number" class="form-control" >
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="name">Serial Number*</label>
+                        <input type="text" id="edit_serial_number" name="edit_serial_number" class="form-control" >
+                    </div>
+                    <div class="col-md-6">
+                        <label for="name">Quantity Recieved*</label>
+                        <input type="text" id="edit_quantity_recieved" name="edit_quantity_recieved" class="form-control" >
+                    </div>
+                    <div class="col-md-6">
+                        <label for="name">Quantity Missing*</label>
+                        <input type="text" id="edit_quantity_missing" name="edit_quantity_missing" class="form-control" >
+                    </div>
+                    <div class="col-md-6">
+                        <label for="name">Purchased From*</label>
+                        <input type="text" id="edit_purchased_from" name="edit_purchased_from" class="form-control" >
+                    </div>
+                    <div class="col-md-6">
+                        <label for="name">Company Purchased From*</label>
+                        <input type="text" id="edit_company_purchased_from" name="edit_company_purchased_from" class="form-control" >
+                    </div>
+                   
+                    <div class="col-sm-6">
+
+                    <label for="name">Purchase Method*</label>
+                    <select type="text" id="edit_purchase_method" name="edit_purchase_method" class="form-control" >
+                        <option value="eBay"> eBay</option>
+                        <option value="Website"> Website</option>
+                        <option value="BACS"> BACS</option>
+                        <option value="Paypal"> Paypal</option>
+                        <option value="Cash"> Cash</option>
+                        <option value="Whatsapp"> Whatsapp</option>
+                        <option value="Email"> Email</option>
+                        <option value="Alibaba"> Alibaba</option>
+                        <option value="Ali Express"> Ali Express</option>
+                    </select>
+                    </div>
+
+                    <div class="col-md-6">
+                    <label for="customer"> Select Status* </label>
+
+                    <select name="edit_status" id="edit_status" class="form-control" >
+                       
+                        <option value="pending">pending</option>
+                        <option value="success">success</option>
+                      
+                    </select>
+
+                    </div>
+                    <div class="col-md-6">
+                    <label for="customer"> Select Qualtiy* </label>
+
+                    <select name="edit_quality" id="edit_quality" class="form-control" >
+                        <option value="Good">Good</option>
+                        <option value="Bad">Bad</option>
+                        <option value="Faulty">Faulty</option>
+                      
+                    </select>
+
+                    </div>
+                   
+                    <div class="col-md-12">
+                        <label for="name">Notes*</label>
+                        <textarea name="editnotes"  id="editnotes" class="form-control"></textarea>
+                    </div>
+                    <br>
+                    <div class="col-md-12" style="margin-top:20px;">
+                      
+                        <input type="submit" class="btn btn-primary" value="Submit">
+                    </div>
+                </div>
+                </form>
+            </div>
+            
+            
+        </div>
+    </div>
 </div>
-       
 @endsection
 @section('scripts')
 @parent
+
+<script>
+        $(document).ready(function(){
+
+    $(document).on("click", ".update_data", function(e) { 
+        var rowid = $(this).attr('data-id');
+        console.log(rowid);
+        $.ajax({
+            url: "{{route('admin.reciever.edit')}}",
+            type: "get", //send it through get method
+            data: { 
+                id: rowid, 
+            },
+            success: function(response) {
+                console.log(response.data[0]);
+                console.log(response.status);
+                var responData = response.data[0];
+                console.log(responData.tracking_number);
+                if(response.status == 200)
+             {
+                console.log("rww",rowid);
+                jQuery('#edit_data_id').val(rowid);
+                jQuery('#edit_date_recieved').val(responData.date_recieved);
+                jQuery('#edit_order_number').val(responData.order_number);
+                jQuery('#edit_serial_number').val(responData.serial_number);
+                jQuery('#edit_tracking_number').val(responData.tracking_number);
+                jQuery('#edit_quantity_recieved').val(responData.quantity_recieved);
+                jQuery('#edit_purchased_from').val(responData.purchased_from);
+                jQuery('#edit_company_purchased_from').val(responData.company_purchased_from);
+                jQuery('#edit_quantity_missing').val(responData.quantity_missing);
+                jQuery('#purchase_method').val(responData.tracking_number);
+                jQuery('#editnotes').val(responData.notes);
+
+                //$('#edit_date_recieved').datepicker("setDate", new Date(2022,9,03) );
+                jQuery('#updatePurchase').modal('show');
+                //window.location = "/userData";
+             }
+            },
+            error: function(xhr) {
+                //Do Something to handle error
+            }
+        });
+       
+	}); 
+});
+
+    </script>
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)

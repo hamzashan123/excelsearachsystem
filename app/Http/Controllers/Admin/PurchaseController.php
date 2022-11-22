@@ -19,19 +19,27 @@ class PurchaseController extends Controller
     public function create(Request $request){
         Purchaser::create([
             'customer_name' => $request->customer_name,
-            'part_number' => $request->part_number,
             'purchase_date' => $request->purchase_date,
-            'cost' => $request->cost,
-            'quantity' => $request->quantity,
+            'date_recieved' => $request->date_recieved,
+            'order_number' => $request->order_number,
+            'part_number' => $request->part_number,
             'manufacturer' => $request->manufacturer,
+            'cost' => $request->cost,
+            'purchased_from' => $request->purchased_from,
+            'purchase_method' => $request->purchase_method,
+            'quantity' => $request->quantity,
+            'quantity_recieved' => $request->quantity_recieved,
+            'quantity_missing' => $request->quantity_missing,
             'status' => 'pending',
+            'quality' => $request->quality,
             'selling_price' => $request->selling_price,
-            'currency' => $request->currency,
-            'tracking_number' => $request->tracking_number,
             'description' => $request->description,
+            'serial_number' => $request->serial_number,
+            'tracking_number' => $request->tracking_number,
+            'currency' => $request->currency,
+            'company_purchased_from' => $request->company_purchased_from,
             'notes' => $request->notes,
-            'expected_delivery' => $request->expected_delivery,
-            'purchase_method' => $request->purchase_method
+            'expected_delivery' => $request->expected_delivery
         ]);
 
 
@@ -54,4 +62,6 @@ class PurchaseController extends Controller
 
         return Redirect()->back();
     }
+
+    
 }

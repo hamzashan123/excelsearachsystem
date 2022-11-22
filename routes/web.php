@@ -27,7 +27,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('purchase-edit/{id}', 'PurchaseController@edit')->name('purchaser.edit');
 
     Route::get('recievelist', 'RecieveController@list')->name('reciever.list');
-    Route::post('reciever-edit/{id}', 'RecieveController@edit')->name('purchaser.edit');
+    Route::post('reciever-search', 'RecieveController@searchPurchases')->name('reciever.search');
+    Route::get('reciever-edit', 'RecieveController@edit')->name('reciever.edit');
+    Route::post('reciever-update', 'RecieveController@update')->name('reciever.update');
     
 
 });

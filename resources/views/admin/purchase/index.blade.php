@@ -1,5 +1,4 @@
 ﻿@extends('layouts.admin')
-
 @section('content')
 <div class="container">
     <h6 class="c-grey-900">
@@ -130,47 +129,68 @@
                         #
                     </th>
                     <th>
-                        Customer Name
+                        Purchase Date
+                    </th>
+                    <th>
+                        Date Recieved
+                    </th>
+                    <th>
+                        Order Number
                     </th>
                     <th>
                         Part Number
                     </th>
                     <th>
-                        Purchase Date
-                    </th>
-                    <th>
-                        Cost
-                    </th>
-                    <th>
-                        Quantity
-                    </th>
-                    <th>
                         Manufacturer
                     </th>
-
+                    <th>
+                        Cost Price
+                    </th>
+                    <th>
+                        Purchased From
+                    </th>
+                    <th>
+                        Purchased Method
+                    </th>
+                    <th>
+                        Quantity Ordered
+                    </th>
+                        
+                    <th>
+                        Quantity Recieved
+                    </th>
+                    <th>
+                        Missing Qty
+                    </th>
                     <th>
                         Status
+                    </th>
+                    <th>
+                        Quality
                     </th>
                     <th>
                         Selling Price
                     </th>
                     <th>
-                        Currency
+                        Description
+                    </th>
+                    <th>
+                        Serial Number
                     </th>
                     <th>
                         Tracking Number
                     </th>
                     <th>
-                        Description
+                        Purchase Currency
+                    </th>
+                    <th>
+                        Company Purchased From
                     </th>
                     <th>
                         Notes
                     </th>
                     <th>
                         Expected Delivery
-                    </th>
-                    <th>
-                        Purchase Method
                     </th>
 
                 </tr>
@@ -182,7 +202,15 @@
 
                     </td>
                     <td>
-                        {{ $purchase->customer_name ?? '' }}
+                        {{ $purchase->purchase_date ?? '' }}
+
+                    </td>
+                    <td>
+                        {{ $purchase->date_recieved ?? '' }}
+
+                    </td>
+                    <td>
+                        {{ $purchase->order_number ?? '' }}
 
                     </td>
                     <td>
@@ -190,34 +218,55 @@
 
                     </td>
                     <td>
-                        {{ $purchase->purchase_date ?? '' }}
-
+                        {{ $purchase->manufacturer ?? '' }}
                     </td>
                     <td>
                         {{ $purchase->cost ?? '' }}
 
                     </td>
                     <td>
+                        {{ $purchase->purchased_from ?? '' }}
+
+                    </td>
+                    <td>
+                        {{ $purchase->purchase_method ?? '' }}
+                    </td>
+                    <td>
                         {{ $purchase->quantity ?? '' }}
 
                     </td>
                     <td>
-                        {{ $purchase->manufacturer ?? '' }}
+                        {{ $purchase->quantity_recieved ?? '' }}
+
                     </td>
                     <td>
+                        {{ $purchase->quantity_missing ?? '' }}
+
+                    </td>
+                    
+                    <td>
                         {{ $purchase->status ?? '' }}
+                    </td>
+                    <td>
+                        {{ $purchase->quality ?? '' }}
                     </td>
                     <td>
                         {{ $purchase->selling_price ?? '' }}
                     </td>
                     <td>
-                        {{ $purchase->currency ?? '' }}
+                        {{ $purchase->description ?? '' }}
+                    </td>
+                    <td>
+                        {{ $purchase->serial_number ?? '' }}
                     </td>
                     <td>
                         {{ $purchase->tracking_number ?? '' }}
                     </td>
                     <td>
-                        {{ $purchase->description ?? '' }}
+                        {{ $purchase->currency ?? '' }}
+                    </td>
+                    <td>
+                        {{ $purchase->company_purchased_from ?? '' }}
                     </td>
                     <td>
                         {{ $purchase->notes ?? '' }}
@@ -225,9 +274,7 @@
                     <td>
                         {{ $purchase->expected_delivery ?? '' }}
                     </td>
-                    <td>
-                        {{ $purchase->purchase_method ?? '' }}
-                    </td>
+                    
 
                 </tr>
                 @endforeach
@@ -287,13 +334,15 @@
                         <label for="name">Notes*</label>
                         <textarea name="notes" class="form-control"></textarea>
                     </div>
+                    <div class="col-md-12">
+                      
+                        <input type="submit" class="btn btn-primary" value="Submit">
+                    </div>
                 </div>
+                </form>
             </div>
-            <div class="modal-footer">
-
-                <input type="submit" class="btn btn-primary" value="Submit">
-            </div>
-</form>
+            
+            
         </div>
     </div>
 </div>
