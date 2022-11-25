@@ -22,7 +22,7 @@
                     </div>
                     <div class="col-sm">
                     <label for="name">Search by Company Name</label>
-                    <input type="text" name="purchased_from" class="form-control" >
+                    <input type="text" id="purchased_from" name="purchased_from" class="form-control" >
                     </div>
             </div>
 
@@ -30,8 +30,8 @@
             <div class="row">
                     <div class="col-sm">
                      
-            <label for="name">Search by Order Date</label>
-            <input type="date" id="order_number" name="order_number" class="form-control"  >
+            <label for="name">Search by Order Number</label>
+            <input type="text" id="order_number" name="order_number" class="form-control"  >
                     </div>
                     <div class="col-sm">
                     <label for="name">Search by Quantity</label>
@@ -58,14 +58,14 @@
             <br>
             <div class="row">
             <div class="col-lg">
-            <input class="btn btn-success" style="width:100px;" type="submit" value="Search">
+            <!-- <input class="btn btn-success" style="width:100px;" type="submit" value="Search">s -->
             </div>
             </div>
     </form>
 </div>
     <br>
     <div class="table-responsive">
-        <table class=" table table-bordered table-striped table-hover datatable datatable-User">
+        <table class=" table table-bordered table-striped table-hover datatable datatable-User" id="recDatatable">
             <thead>
                 <tr>
                     <th width="10">
@@ -195,7 +195,7 @@
 
                     </td>
                     <td>
-                        {{ $purchase->quantity_missing ?? '' }}
+                        {{ $purchase->quantity -  $purchase->quantity_recieved}}
 
                     </td>
                     
@@ -234,6 +234,83 @@
                 </tr>
                 @endforeach
             </tbody>
+            <tfoot style="visibility: hidden;">
+            <tr>
+                    <th style="visibility: hidden;">
+                        
+                    </th>
+                    
+                    <th style="visibility: hidden;"> 
+                        
+                    </th>
+                    
+                    <th>
+                        Purchase Date
+                    </th>
+                    <th>
+                        Date Recieved
+                    </th>
+                    <th>
+                        Order Number
+                    </th>
+                    <th>
+                        Part Number
+                    </th>
+                    <th>
+                        Manufacturer
+                    </th>
+                    <th>
+                        Cost Price
+                    </th>
+                    <th>
+                        Purchased From
+                    </th>
+                    <th>
+                        Purchased Method
+                    </th>
+                    <th>
+                        Quantity Ordered
+                    </th>
+                        
+                    <th>
+                        Quantity Recieved
+                    </th>
+                    <th>
+                        Missing Qty
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Quality
+                    </th>
+                    <th>
+                        Selling Price
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Serial Number
+                    </th>
+                    <th>
+                        Tracking Number
+                    </th>
+                    <th>
+                        Purchase Currency
+                    </th>
+                    <th>
+                        Company Purchased From
+                    </th>
+                    <th>
+                        Notes
+                    </th>
+                    <th>
+                        Expected Delivery
+                    </th>
+
+                </tr>
+            </tfoot>
         </table>
     </div>
  
@@ -255,64 +332,37 @@
                         <input type="hidden" id="edit_data_id" name="edit_data_id" />
                 
                     <div class="col-md-6">
-                        <label for="name">Date Recieved*</label>
+                        <label for="name">Date Recieved</label>
                         <input type="date" id="edit_date_recieved" name="edit_date_recieved" class="form-control" >
                     </div>
                     <div class="col-md-6">
-                        <label for="name">Order Number*</label>
+                        <label for="name">Order Number</label>
                         <input type="text" id="edit_order_number" name="edit_order_number" class="form-control" >
                     </div>
 
                     <div class="col-md-6">
-                        <label for="name">Serial Number*</label>
+                        <label for="name">Serial Number</label>
                         <input type="text" id="edit_serial_number" name="edit_serial_number" class="form-control" >
                     </div>
                     <div class="col-md-6">
-                        <label for="name">Quantity Recieved*</label>
-                        <input type="text" id="edit_quantity_recieved" name="edit_quantity_recieved" class="form-control" >
+                        <label for="name">Quantity Recieved *</label>
+                        <input type="text" id="edit_quantity_recieved" name="edit_quantity_recieved" class="form-control" required>
                     </div>
-                    <div class="col-md-6">
-                        <label for="name">Quantity Missing*</label>
-                        <input type="text" id="edit_quantity_missing" name="edit_quantity_missing" class="form-control" >
-                    </div>
-                    <div class="col-md-6">
-                        <label for="name">Purchased From*</label>
-                        <input type="text" id="edit_purchased_from" name="edit_purchased_from" class="form-control" >
-                    </div>
-                    <div class="col-md-6">
-                        <label for="name">Company Purchased From*</label>
-                        <input type="text" id="edit_company_purchased_from" name="edit_company_purchased_from" class="form-control" >
-                    </div>
-                   
-                    <div class="col-sm-6">
-
-                    <label for="name">Purchase Method*</label>
-                    <select type="text" id="edit_purchase_method" name="edit_purchase_method" class="form-control" >
-                        <option value="eBay"> eBay</option>
-                        <option value="Website"> Website</option>
-                        <option value="BACS"> BACS</option>
-                        <option value="Paypal"> Paypal</option>
-                        <option value="Cash"> Cash</option>
-                        <option value="Whatsapp"> Whatsapp</option>
-                        <option value="Email"> Email</option>
-                        <option value="Alibaba"> Alibaba</option>
-                        <option value="Ali Express"> Ali Express</option>
-                    </select>
-                    </div>
+                    
 
                     <div class="col-md-6">
-                    <label for="customer"> Select Status* </label>
+                    <label for="customer"> Select Status </label>
 
                     <select name="edit_status" id="edit_status" class="form-control" >
                        
-                        <option value="pending">pending</option>
-                        <option value="success">success</option>
-                      
+                        <option value="Pending">Pending</option>
+                        <option value="Recieved">Recieved</option>
+                        <option value="Broken">Broken</option>
                     </select>
 
                     </div>
                     <div class="col-md-6">
-                    <label for="customer"> Select Qualtiy* </label>
+                    <label for="customer"> Select Qualtiy </label>
 
                     <select name="edit_quality" id="edit_quality" class="form-control" >
                         <option value="Good">Good</option>
@@ -324,7 +374,7 @@
                     </div>
                    
                     <div class="col-md-12">
-                        <label for="name">Notes*</label>
+                        <label for="name">Notes</label>
                         <textarea name="editnotes"  id="editnotes" class="form-control"></textarea>
                     </div>
                     <br>
@@ -345,7 +395,21 @@
 @parent
 
 <script>
-        $(document).ready(function(){
+
+
+ 
+$(document).ready(function(){
+
+   
+
+    // $('#recDatatable tfoot th').each(function () {
+    //     var title = $(this).text();
+    //     $(this).html('<input type="text" placeholder=" ' + title.trim() + '" />');
+    // });
+    // var table = $('#recDatatable').DataTable();
+ 
+    // Event listener to the two range filtering inputs to redraw on input
+
 
     $(document).on("click", ".update_data", function(e) { 
         var rowid = $(this).attr('data-id');
@@ -373,7 +437,9 @@
                 jQuery('#edit_purchased_from').val(responData.purchased_from);
                 jQuery('#edit_company_purchased_from').val(responData.company_purchased_from);
                 jQuery('#edit_quantity_missing').val(responData.quantity_missing);
-                jQuery('#purchase_method').val(responData.tracking_number);
+                jQuery('#edit_quality').val(responData.quality);
+                jQuery('#edit_status').val(responData.status);
+                jQuery('#edit_purchase_method').val(responData.purchase_method);
                 jQuery('#editnotes').val(responData.notes);
 
                 //$('#edit_date_recieved').datepicker("setDate", new Date(2022,9,03) );
@@ -390,6 +456,10 @@
 });
 
     </script>
+
+
+
+
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
@@ -427,12 +497,61 @@
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  $('.datatable-User:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+    $('.datatable-User:not(.ajaxTable)').DataTable({
+         buttons: dtButtons ,
+         initComplete: function () {
+            // Apply the search
+            this.api()
+                .columns()
+                .every(function () {
+                    var that = this;
+ 
+                    $('input', this.footer()).on('keyup change clear', function () {
+                        if (that.search() !== this.value) {
+                            that.search(this.value).draw();
+                        }
+                    });
+                });
+        },
+        
+    })
+    
+    $('#tracking_number , #part_number , #purchased_from , #order_number , #quantity , #purchase_method').on( 'keyup change', function () {
+        
+        var tracking_number = $('#tracking_number').val();
+        var part_number = $('#part_number').val();
+        var purchased_from = $('#purchased_from').val();
+        var order_number = $('#order_number').val();
+        var quantity = $('#quantity').val();
+        var purchase_method = $('#purchase_method').val();
+        console.log(this.value);
+        console.log('purchase_method' ,purchase_method);
+        console.log(  $($.fn.dataTable.tables(true)).DataTable().column( 18 ));
         $($.fn.dataTable.tables(true)).DataTable()
-            .columns.adjust();
+        .column(4).search(order_number)
+        .column(5).search(part_number)
+        .column(9).search( purchase_method )
+        .column(10).search( quantity )
+        .column(18).search( tracking_number )
+        .column(20).search( purchased_from )
+        .draw();
+    } );
+    
+
+
+
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+        $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
     });
+
+
+
+
+
+
 })
+
 
 </script>
 @endsection

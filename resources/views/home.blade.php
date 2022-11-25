@@ -8,21 +8,30 @@
     <div class="container">
       <div class="row">
         
-        <div class="col-md-6">
+        <div class="col-md-4">
           <div class="card">
             <div class="card-block">
               <h4 class="card-title">Total Purchasing</h4>
               <h6 class="card-subtitle text-muted">{{$totalPurchases}}</h6>
-              <a href="{{route('admin.users.index')}}" class="card-link">View List</a>
+             
             </div>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
           <div class="card">
             <div class="card-block">
               <h4 class="card-title">Total Recieving</h4>
               <h6 class="card-subtitle text-muted">{{$totalReceiving}}</h6>
-              <a href="#" class="card-link">View List</a>
+             
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-block">
+              <h4 class="card-title">Total Customer</h4>
+              <h6 class="card-subtitle text-muted">{{$totalCustomer}}</h6>
+              
             </div>
           </div>
         </div>

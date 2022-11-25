@@ -23,13 +23,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Route::resource('documents', 'DocumentsController');
     Route::get('purchaselist', 'PurchaseController@list')->name('purchaser.list');
     Route::post('purchase-create', 'PurchaseController@create')->name('purchaser.create');
+    Route::get('purchase-edit', 'PurchaseController@edit')->name('purchaser.edit');
     Route::post('customer', 'PurchaseController@createCustomer')->name('purchaser.createcustomer');
-    Route::post('purchase-edit/{id}', 'PurchaseController@edit')->name('purchaser.edit');
+    Route::get('purchase-edit', 'PurchaseController@edit')->name('purchaser.edit');
+    Route::post('purchase-update', 'PurchaseController@update')->name('purchaser.update');
 
     Route::get('recievelist', 'RecieveController@list')->name('reciever.list');
     Route::post('reciever-search', 'RecieveController@searchPurchases')->name('reciever.search');
     Route::get('reciever-edit', 'RecieveController@edit')->name('reciever.edit');
     Route::post('reciever-update', 'RecieveController@update')->name('reciever.update');
+    Route::get('customers', 'PurchaseController@customers')->name('customers.list');
     
 
 });

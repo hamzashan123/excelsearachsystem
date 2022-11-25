@@ -47,6 +47,14 @@
                 </a>
             </li>
             @endcan
+            <li class="nav-item mT-30">
+                <a href="{{ route("admin.customers.list") }}" class="sidebar-link">
+                    <span class="icon-holder">
+                        <i class="nav-icon fas fa-fw fa-users"></i>
+                    </span>
+                    <span class="title">Customers</span>
+                </a>
+            </li>
             @can('user_recive_access')
             <li class="nav-item mT-30">
                 <a href="{{ route("admin.reciever.list") }}" class="sidebar-link">

@@ -18,9 +18,19 @@ class RecieveController extends Controller
 
     public function searchPurchases(Request $request){
         
-        $purchases = Purchaser::where('tracking_number','LIKE','%'.$request->tracking_number.'%')
-                ->orWhere('part_number','LIKE','%'.$request->part_number.'%')
-                ->get();
+        // $purchases = Purchaser::where('tracking_number','LIKE','%'.$request->tracking_number.'%')
+        //         ->orWhere('part_number','LIKE','%'.$request->part_number.'%')
+        //         ->orWhere('purchased_from','LIKE','%'.$request->purchased_from.'%')
+        //         ->orWhere('order_number',$request->order_number)
+        //         ->orWhere('quantity',$request->quantity)
+        //         ->get();
+
+        $purchases = Purchaser::where('tracking_number', $request->tracking_number)
+                ->orWhere('part_number', $request->part_number)
+                ->orWhere('purchased_from', $request->purchased_from)
+                ->orWhere('order_number', $request->order_number)
+                ->orWhere('quantity', $request->quantity)
+                ->get();        
                 
         return view('admin.reciever.index',compact('purchases'));
     }
