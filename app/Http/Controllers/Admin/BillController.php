@@ -21,7 +21,7 @@ class BillController extends Controller
     }
 
     public function store(Request $request){
-        dd($request->type);
+        //dd($request->type);
         $types = $request->type;
 
         $Id = DB::table('bills')->insertGetId([
@@ -41,16 +41,16 @@ class BillController extends Controller
             
         }
 
-        if(count($types) > 0){
-            foreach($types as $key => $type){
-                DB::table('hosts')->insertGetId([
-                    'bill_id' => $Id,
-                    'type' => $type,
-                    'discount' => $request->discount[$key]
-                ]);
-            }
+        // if(count($types) > 0){
+        //     foreach($types as $key => $type){
+        //         DB::table('hosts')->insertGetId([
+        //             'bill_id' => $Id,
+        //             'type' => $type,
+        //             'discount' => $request->discount[$key]
+        //         ]);
+        //     }
             
-        }
+        // }
         
         return redirect()->route('admin.bills.index');
         
