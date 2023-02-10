@@ -43,6 +43,14 @@
                 {{ trans('global.remember_me') }}
             </label>
         </div>
+        <div class="col-6 text-right">
+            <a class="btn btn-link px-0" href="{{ route('register') }}">
+                Don't have an account?
+            </a>
+
+        </div>
+        
+        
     </div>
 
     <div class="row">

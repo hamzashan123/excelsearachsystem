@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'site_title' => 'Order System',
+    'site_title' => 'Billing System',
 ];

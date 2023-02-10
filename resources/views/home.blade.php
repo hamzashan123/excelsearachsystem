@@ -9,31 +9,19 @@
       <div class="row">
         
         <div class="col-md-4">
-          <div class="card">
-            <div class="card-block">
-              <h4 class="card-title">Total Purchasing</h4>
-              <h6 class="card-subtitle text-muted">{{$totalPurchases}}</h6>
-             
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-block">
-              <h4 class="card-title">Total Recieving</h4>
-              <h6 class="card-subtitle text-muted">{{$totalReceiving}}</h6>
-             
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-block">
-              <h4 class="card-title">Total Customer</h4>
-              <h6 class="card-subtitle text-muted">{{$totalCustomer}}</h6>
+          
+              <a href="#" class="btn btn-primary"> Add New Bill</a>
               
-            </div>
-          </div>
+             
+           
+         
+        </div>
+        <div class="col-md-4">
+          
+            <a href="#" class="btn btn-danger"> Delete Existing Bill</a>
+              
+             
+          
         </div>
         </div>
       </div>

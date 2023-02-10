@@ -1,21 +1,17 @@
 <div class="sidebar">
     <div class="sidebar-inner">
         <div class="sidebar-logo">
-            <div class="peers ai-c fxw-nw">
+            <div class="peers ai-c fxw-nw" style="justify-content: center;">
                 <div class="peer peer-greed">
                     <a href="" class="sidebar-link td-n">
-                        <div class="peers ai-c fxw-nw">
+                        <div class="peers ai-c fxw-nw" style="justify-content: center;">
                             <div class="peer">
-                                <div class="logo">
-                                    <!-- <img src="/assets/static/images/logo.png" alt=""> -->
-                                    <!-- <h5>Title Search Company</h5> -->
+                                <div class="logo" style="text-align: center;">
+                                    <img src="/assets/static/images/logo.png" alt="" style="height: 80px; margin: 10px 0px;"> 
+                                     <!-- <h5>Title Search Company</h5>  -->
                                 </div>
                             </div>
-                            <div class="peer peer-greed">
-                                <h5 class="lh-1 mB-0 logo-text">
-                                    <h5>Data Entry System</h5>
-                                </h5>
-                            </div>
+                       
                         </div>
                     </a>
                 </div>
@@ -37,37 +33,9 @@
                     <span class="title">{{ trans('global.dashboard') }}</span>
                 </a>
             </li>
-            @can('user_purchase_access')
-            <li class="nav-item mT-30">
-                <a href="{{ route("admin.purchaser.list") }}" class="sidebar-link">
-                    <span class="icon-holder">
-                        <i class="nav-icon fas fa-fw fa-shopping-cart"></i>
-                    </span>
-                    <span class="title">Purchaser</span>
-                </a>
-            </li>
-            @endcan
-            <li class="nav-item mT-30">
-                <a href="{{ route("admin.customers.list") }}" class="sidebar-link">
-                    <span class="icon-holder">
-                        <i class="nav-icon fas fa-fw fa-users"></i>
-                    </span>
-                    <span class="title">Customers</span>
-                </a>
-            </li>
-            @can('user_recive_access')
-            <li class="nav-item mT-30">
-                <a href="{{ route("admin.reciever.list") }}" class="sidebar-link">
-                    <span class="icon-holder">
-                        <i class="nav-icon fas fa-fw fa-shopping-cart"></i>
-                    </span>
-                    <span class="title">Reciever</span>
-                </a>
-            </li>
-            @endcan
-
+           
             @can('user_management_access')
-            <li class="nav-item dropdown">
+            <!-- <li class="nav-item dropdown">
                 <a class="dropdown-toggle" href="#">
                     <span class="icon-holder">
                         <i class="fa-fw fas fa-users nav-icon"></i>
@@ -109,7 +77,7 @@
                     </li>
                     @endcan
                 </ul>
-            </li>
+            </li> -->
             @endcan
 
 

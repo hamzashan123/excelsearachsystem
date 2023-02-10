@@ -26,36 +26,42 @@
 </head>
 
 <body class="app">
-  <div id="loader">
+  <!-- <div id="loader">
     <div class="spinner"></div>
-  </div>
-  <script>
+  </div> -->
+  <!-- <script>
     window.addEventListener('load', function load() {
       var loader = document.getElementById('loader');
       setTimeout(function() {
         loader.classList.add('fadeOut');
       }, 200);
     });
-  </script>
-  @include('partials.menu')
-  <div class="page-container">
+  </script> -->
+
+  <div class="page-container" style="padding-left:0% !important;">
     <div class="header navbar">
       <div class="header-container">
         <ul class="nav-left">
-          <li>
-            <a href="#" id="sidebar-toggle" class="sidebar-toggle">
-              <i class="ti-menu"></i>
-            </a>
+          <li class="viewbill">
+            <a href="{{route('admin.bills.index')}}" style="height: 25px !important;" class="btn btn-success pull-right">View My Bills</a>
           </li>
         </ul>
         <ul class="nav-right">
 
           @if(count(config('panel.available_languages', [])) > 1)
           <li class="">
-            {{ Auth::user()->name}}
+            Hello , {{ Auth::user()->name}}
 
           </li>
           @endif
+          <li class="nav-right">
+                <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
+                    <span class="icon-holder">
+                        <i class="nav-icon fas fa-fw fa-sign-out-alt"></i>
+                    </span>
+                    <span class="title">{{ trans('global.logout') }}</span>
+                </a>
+            </li>
         </ul>
       </div>
     </div>
@@ -65,7 +71,7 @@
           <div style="padding-top: 20px" class="container-fluid">
             <div class="masonry-sizer col-md-12"></div>
             <div class="masonry-item col-md-12">
-              <div class="bgc-white p-20 bd">
+              <div class="p-20">
                 @if(session('message'))
                 <div class="row mb-2">
                   <div class="col-lg-12">
