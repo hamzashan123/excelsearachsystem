@@ -1,14 +1,15 @@
 @extends('layouts.app')
 @section('content')
-<h4 class="fw-300 c-grey-900 mB-40">
-    {{ trans('global.reset_password') }}
-</h4>
+
 @if(\Session::has('message'))
     <p class="alert alert-info">
         {{ \Session::get('message') }}
     </p>
 @endif
-<form method="POST" action="{{ route('password.email') }}">
+<form method="POST" action="{{ route('password.email') }}" class="loginform">
+    <h4 class="fw-300 c-grey-900 mB-40">
+        <b>{{ trans('global.reset_password') }}</b>
+    </h4>
     {{ csrf_field() }}
     <p class="text-muted"></p>
     <div>
@@ -24,7 +25,7 @@
     </div>
     <div class="row">
         <div class="col-12 text-right">
-            <button type="submit" class="btn btn-primary btn-block btn-flat">
+            <button type="submit" class="btn btn-success btn-block btn-flat">
                 {{ trans('global.reset_password') }}
             </button>
         </div>

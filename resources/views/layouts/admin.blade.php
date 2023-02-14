@@ -67,10 +67,7 @@
     </div>
     <main class="main-content bgc-grey-100">
       <div id="mainContent">
-        <div class="row gap-20 masonry pos-r">
-          <div style="padding-top: 20px" class="container-fluid">
-            <div class="masonry-sizer col-md-12"></div>
-            <div class="masonry-item col-md-12">
+       
               <div class="p-20">
                 @if(session('message'))
                 <div class="row mb-2">
@@ -91,9 +88,7 @@
                 @yield('content')
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+          
     </main>
     <footer class="bdT ta-c p-30 lh-0 fsz-sm c-grey-600">
       {{--footer-text--}}

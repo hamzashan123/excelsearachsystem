@@ -1,16 +1,17 @@
 ﻿@extends('layouts.app')
 @section('title', 'Registration')
 @section('content')
-<h4 class="fw-300 c-grey-900 mB-40">
-    {{ trans('global.register') }}
-</h4>
+
 @if(\Session::has('message'))
     <p class="alert alert-info">
         {{ \Session::get('message') }}
     </p>
 @endif
 
-                                 <form method="POST" action="{{ route('register') }}">
+                                 <form method="POST" action="{{ route('register') }}" class="loginform">
+                                 <h4 class="fw-300 c-grey-900 mB-40">
+                                    <b>{{ trans('global.register') }}</b>
+                                </h4>
                                     @csrf
                                     <div class="row">
                                         <div class="col-12">
@@ -62,7 +63,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-dark">
+                                        <button type="submit" class="btn btn-success">
                                             {{ __('Register') }}
                                         </button>
                                         @if(Route::has('login'))

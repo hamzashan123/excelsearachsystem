@@ -458,3 +458,50 @@ li.viewbill a {
     color: white !important;
     font-weight: 1000 !important;
 }
+.middle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.loginform {
+    width: 50%;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    padding: 80px;
+    border-radius: 15px;
+}
+.loginform .input-group.mb-4 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+form.loginform h4 {
+    text-align: center;
+}
+.loginform .input-group.mb-4 .col-6 {
+    padding: 5px 10px;
+}
+.form-group.hosts {
+    background: #4caf50;
+    color: white;
+    padding-left: 12px;
+    width: 200px;
+    height: 105px;
+    text-align: left;
+    font-size: 20px;
+    border-style: solid;
+    border-color: black;
+    font-weight: 500;
+}
+.form-group.guests {
+    background: #ff0000;
+    color: white;
+    padding-left: 12px;
+    width: 200px;
+    height: 105px;
+    text-align: left;
+    font-size: 20px;
+    border-style: solid;
+    border-color: black;
+    font-weight: 500;
+}

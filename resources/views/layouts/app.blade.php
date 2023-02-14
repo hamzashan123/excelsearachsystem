@@ -33,8 +33,7 @@
         });
     </script>
     <div class="peers ai-s fxw-nw h-100vh">
-        
-        <div class="col-12 col-md-4 peer pX-40 pY-80 h-100 bgc-white scrollable pos-r ps">
+        <div class="col-12 col-md-12 middle">
             @yield("content")
         </div>
     </div>

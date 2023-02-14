@@ -1,14 +1,16 @@
 @extends('layouts.app')
 @section('content')
-<h4 class="fw-300 c-grey-900 mB-40">
-    {{ trans('global.login') }}
-</h4>
+
 @if(\Session::has('message'))
     <p class="alert alert-info">
         {{ \Session::get('message') }}
     </p>
 @endif
-<form method="POST" action="{{ route('login') }}">
+
+<form method="POST" action="{{ route('login') }}" class="loginform">
+    <h4 class="fw-300 c-grey-900 mB-40 ">
+        <b>{{ trans('global.login') }}</b>
+    </h4>
     {{ csrf_field() }}
     <div class="input-group mb-3">
         <div class="input-group-prepend">
@@ -37,7 +39,7 @@
     </div>
 
     <div class="input-group mb-4">
-        <div class="form-check checkbox">
+        <div class="col-6 form-check checkbox">
             <input class="form-check-input" name="remember" type="checkbox" id="remember" style="vertical-align: middle;" />
             <label class="form-check-label" for="remember" style="vertical-align: middle;">
                 {{ trans('global.remember_me') }}
@@ -55,7 +57,7 @@
 
     <div class="row">
         <div class="col-6">
-            <button type="submit" class="btn btn-primary px-4">
+            <button type="submit" class="btn btn-success px-4">
                 {{ trans('global.login') }}
             </button>
         </div>
