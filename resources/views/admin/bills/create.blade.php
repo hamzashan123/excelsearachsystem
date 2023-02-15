@@ -102,15 +102,6 @@
 
                                         <div class="itemsdiv">
                                         <div class="itemslisting">
-                                            <div class="itemdetails">
-                                                <h4>Steak</h4>
-                                                <p>asndsandnasdasdkasjdk</p>
-                                            </div>
-                                            <div class="pricedetails">
-                                                <p><del>£5.00</del></p>
-                                                <p>50% Off</p>
-                                                <p>£2.25</p>
-                                            </div>
                                             
                                         </div>
                                         <div class="hostguestlisting">
@@ -129,7 +120,7 @@
                                         </div>
                                        
 
-                                    <input type="button" name="addItemModal" href="#addItemModal" data-target="#addItemModal" data-toggle="modal" id="addItem" class="form-control btn btn-success" value="Add"/> 
+                                    <input type="button" name="btn_addItemModal"  id="btn_addItemModal" class="form-control btn btn-success" value="Add"/> 
                                 </div>
                              </div>
                                 <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
@@ -187,28 +178,25 @@
 
 
                     <form method="post" action="">
-                        <input type="hidden" name="parent_id" id="parent_id" value="" > 
+                         
                         @csrf
                         
                         
                         <div class="row">
 
                             <div class="col-md-6">
-                                <input type="text" value="" id="file_number" name="file_number" class="form-control" required placeholder="Item Description">
+                                <input type="text" value="" id="item_description" name="item_description" class="form-control" required placeholder="Item Description">
                             </div>
                             <div class="col-md-6">
-                                <input type="text" id="requested_by" name="requested_by" class="form-control" required placeholder="£0.00">
+                                <input type="text" id="item_price" name="item_price" class="form-control" required placeholder="£0.00">
                             </div>
                          
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                    
-                                    <select name="county" id="county" class="form-control">
+                                    <select name="bill_discount_types" id="bill_discount_types" class="form-control">
                                         <option value="">Select</option>
-                                        <option value="Food">Food</option>
-                                        <option value="Drink">Drink</option>
-                                        <option value="Vine">Vine</option>
                                     </select>
                             </div>
 
@@ -240,6 +228,8 @@
     var current_fs, next_fs, previous_fs; //fieldsets
     var opacity;
     var bill_id;
+    var selectedDiscountType;
+    var discountValue;
     
     $(".next").click(function(){
         
@@ -296,6 +286,9 @@
             function(data, status){
                 if(data.success == true){
                     bill_id = data.bill_id;
+                    // set the item in localStorage
+                    localStorage.removeItem("bill_id");
+                    localStorage.setItem('bill_id', bill_id);
                     console.log(data.bill_id);
                 }else{
                     alert('something went wrong!');
@@ -421,7 +414,49 @@
     });
 
 
-                                            
+    //select and get discount by changing item
+    $('#bill_discount_types').change( function () {
+        selectedDiscountType = $(this).val();
+        bill_id = localStorage.getItem('bill_id');
+        console.log('billid in discount',bill_id);
+        
+        $.post('{{route("admin.bills.discountTypes")}}',
+            {
+                    "_token": "{{ csrf_token() }}",
+                    bill_id : bill_id,
+                    type : selectedDiscountType
+            },
+        function(data, status){
+                console.log(data.data);
+                discountValue = data.data.discount;
+                    //alert("Data: " + data + "\nStatus: " + status);
+        });
+    });
+
+    $("#btn_addItemModal").click(function () {
+
+        bill_id = localStorage.getItem('bill_id');
+        $.post('{{route("admin.bills.discountTypes")}}',
+            {
+                    "_token": "{{ csrf_token() }}",
+                    bill_id : bill_id,
+            },
+        function(data, status){
+                console.log(data.data);
+                $('#bill_discount_types').find('option').remove();
+                data.data.forEach(key => {
+                    
+                    var html = '';
+                        html += '<option value='+key.type+'>'+key.type+'</option>';      
+                    $('#bill_discount_types').append(html);
+                 // console.log(key); // 👉️ name, country
+                });
+                
+                
+                    //alert("Data: " + data + "\nStatus: " + status);
+        });
+        $('#addItemModal').modal('show'); 
+    });
     // add item in list
     $("#btn_saveItem").click(function () {
         //alert("asdasd");
@@ -429,8 +464,10 @@
         var item_price = $('#item_price').val();
         var item_discount_type = $('#item_discount_type').val();
         var item_discount_quantity = $('#item_discount_quantity').val();
-
-        alert('asd',item_description);
+        discountValue = discountValue;
+        var percentage = Math.round(((item_price / discountValue) * 100)) +"%";
+        console.log(percentage);
+        
 
         var html = '';
         html += '<div id="itemdetails">';
@@ -440,8 +477,8 @@
 
         html += '<div id="pricedetails">';
         html += '<p><del>£'+item_price+'</del></p>';
-        html += '<p>50% Off</p>';
-        html += '<p>£'+item_price - (item_price/2)+'</p>';
+        html += '<p> '+percentage +' Off</p>';
+        html += '<p>£'+item_price+'</p>';
         html += '</div>';
             
         $('.itemslisting').append(html);

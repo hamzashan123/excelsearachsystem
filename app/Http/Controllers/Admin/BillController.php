@@ -20,6 +20,33 @@ class BillController extends Controller
         return view('admin.bills.create');
     }
 
+    public function getDiscountTypes(Request $request){
+        if(!empty($request->bill_id) && !empty($request->type) ){
+            $discountTypes = DB::table('discount_types')
+                            ->where('bill_id',$request->bill_id)
+                            ->where('type',$request->type)
+                            ->first();
+
+            return response()->json([
+                'data' => $discountTypes,
+                'success' => true,
+                'msg' => "Data found!"
+            ]);
+        }else{
+                $discountTypes = DB::table('discount_types')
+                                ->where('bill_id',$request->bill_id)
+                                ->get();
+    
+                return response()->json([
+                    'data' => $discountTypes,
+                    'success' => true,
+                    'msg' => "Data found!"
+                ]);
+        }
+        
+        
+    }
+
     public function store(Request $request){
         
         if($request->fieldset == 'one'){
@@ -72,11 +99,8 @@ class BillController extends Controller
             ]);
 
         }
-        
-
-        
-        
-        //return redirect()->route('admin.bills.index');
-        
+            
     }
+
+
 }

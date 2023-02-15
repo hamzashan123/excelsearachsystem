@@ -22,5 +22,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('bills', 'BillController@index')->name('bills.index');
     Route::get('create-bills', 'BillController@create')->name('bills.create');
     Route::post('createbill', 'BillController@store')->name('bills.store');
+    Route::post('get-discountypes', 'BillController@getDiscountTypes')->name('bills.discountTypes');
 
 });
