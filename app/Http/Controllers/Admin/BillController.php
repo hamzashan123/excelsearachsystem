@@ -21,38 +21,62 @@ class BillController extends Controller
     }
 
     public function store(Request $request){
-        //dd($request->type);
-        $types = $request->type;
-
-        $Id = DB::table('bills')->insertGetId([
-            'title' => $request->title,
-            'user_id' => Auth::user()->id,
-            'default_service' => $request->default_service
-        ]);
         
-        if(count($types) > 0){
-            foreach($types as $key => $type){
-                DB::table('discount_types')->insertGetId([
-                    'bill_id' => $Id,
-                    'type' => $type,
-                    'discount' => $request->discount[$key]
-                ]);
+        if($request->fieldset == 'one'){
+            $types = $request->type;
+            $Id = DB::table('bills')->insertGetId([
+                'title' => $request->title,
+                'user_id' => Auth::user()->id,
+                'default_service' => $request->default_service
+            ]);
+            
+            if(count($types) > 0){
+                foreach($types as $key => $type){
+                    DB::table('discount_types')->insertGetId([
+                        'bill_id' => $Id,
+                        'type' => $type,
+                        'discount' => $request->discount[$key]
+                    ]);
+                }
+                
             }
-            
-        }
+    
+            return response()->json([
+                'success' => true,
+                'bill_id' => $Id,
+                'msg' => "Bill Saved!"
+            ]);
+        }elseif($request->fieldset == 'two'){
 
-        // if(count($types) > 0){
-        //     foreach($types as $key => $type){
-        //         DB::table('hosts')->insertGetId([
-        //             'bill_id' => $Id,
-        //             'type' => $type,
-        //             'discount' => $request->discount[$key]
-        //         ]);
-        //     }
-            
-        // }
+            $hostId = DB::table('hosts')->insertGetId([
+                'bill_id' => $request->bill_id,
+                'name' => $request->host_name,
+                'deposit' => $request->deposit
+            ]);
+
+            $guests = $request->guests;
+            if(count($guests) > 0){
+                foreach($guests as $key => $guest){
+                    DB::table('guests')->insertGetId([
+                        'bill_id' => $request->bill_id,
+                        'host_id' => $hostId,
+                        'name' => $guest,
+                        'deposit' => $request->guest_deposits[$key]
+                    ]);
+                } 
+            }
+
+            return response()->json([
+                'success' => true,
+                'msg' => "Guest saved!"
+            ]);
+
+        }
         
-        return redirect()->route('admin.bills.index');
+
+        
+        
+        //return redirect()->route('admin.bills.index');
         
     }
 }

@@ -18,7 +18,7 @@
                             <!-- progressbar -->
                            
                             <!-- fieldsets -->
-                            <fieldset>
+                            <fieldset id="fieldsetone">
                                 <div class="form-card">
                                 <h3>Create New Bill</h3>
 
@@ -35,11 +35,11 @@
                                 <div id="discount_types">
                                     <div class="form-group" id="dis_type">
                                         <label for="type">Type:</label>
-                                        <input type="text"  class="form-control" id="type"  placeholder="Enter type" name="type[]">
+                                        <input type="text"  class="form-control" id="types"  placeholder="Enter type" name="types">
                                     </div>
                                     <div class="form-group" id="discount">
                                         <label for="description">Discount:</label>
-                                        <input type="number"   class="form-control" id="discount" placeholder="Enter discount" name="discount[]"/>
+                                        <input type="number"   class="form-control" id="discount" placeholder="Enter discount" name="discount"/>
                                     </div>
                                 </div>
                                 <div id="newRow"></div>
@@ -51,7 +51,7 @@
                                 <input type="button" name="next" class="next action-button" value="Continue"/>
                             </fieldset>
 
-                            <fieldset>
+                            <fieldset id="fieldsettwo">
                                 <div class="form-card">
                                 <h3>Host</h3>
 
@@ -77,8 +77,8 @@
                                         <tbody id="guests_row">
                                         
                                             <tr >
-                                                <td> <input type="text"   class="form-control" id="guest_name" placeholder="Enter Name" name="guest_name[]"/> </td>
-                                                <td> <input type="number"   class="form-control" id="deposit" placeholder="Enter Deposit" name="deposit[]"/> </td>
+                                                <td> <input type="text"   class="form-control" id="guest_name" placeholder="Enter Name" name="guest_name"/> </td>
+                                                <td> <input type="number"   class="form-control" id="guest_deposit" placeholder="Enter Deposit" name="guest_deposit"/> </td>
                                                 <td> <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a></td>
                                             </tr>
                                            
@@ -95,12 +95,12 @@
                                 
                             </fieldset>
                             
-                            <fieldset>
-                            <div class="form-card">
+                            <fieldset id="fieldsetthree">
+                             <div class="form-card">
                                     <center> <a href="#">Update Discount/name </a> | <a href="#">Update Guests</a> </center>
                                       <h3>Test</h3>
 
-                                        <div>
+                                        <div class="itemsdiv">
                                         <div class="itemslisting">
                                             <div class="itemdetails">
                                                 <h4>Steak</h4>
@@ -131,13 +131,13 @@
 
                                     <input type="button" name="addItemModal" href="#addItemModal" data-target="#addItemModal" data-toggle="modal" id="addItem" class="form-control btn btn-success" value="Add"/> 
                                 </div>
-                            </div>
+                             </div>
                                 <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
                                 <input type="button" name="next" class="next action-button" value="Continue"/>
                                 
                             </fieldset>
 
-                            <fieldset>
+                            <fieldset id="fieldsetfour">
                                 <div class="form-card">
                                     <h2 class="fs-title text-center">Are you sure you want to submit ?</h2>
                                     
@@ -146,7 +146,7 @@
                                 <input type="submit" name="next" class="action-button" value="Submit"/>  
                             </fieldset>
 
-                            <fieldset>
+                            <fieldset id="fieldsetfive">
                                 <div class="form-card">
                                     <h2 class="fs-title text-center">Success !</h2>
                                     <br><br>
@@ -239,12 +239,14 @@
     
     var current_fs, next_fs, previous_fs; //fieldsets
     var opacity;
+    var bill_id;
     
     $(".next").click(function(){
         
         current_fs = $(this).parent();
         next_fs = $(this).parent().next();
         
+        saveBill(current_fs.attr('id'));
         //Add Class Active
         $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
         
@@ -266,6 +268,78 @@
         });
     });
     
+    function saveBill(current_fs){
+        //console.log(current_fs);
+        if(current_fs == 'fieldsetone'){
+            var title = $('#title').val();
+            var default_service = $('#default_service').val();
+            var types = [];
+            var discounts = [];
+
+            $("input[name='types']").each(function() {
+                types.push($(this).val());
+            });
+            $("input[name='discount']").each(function() {
+                discounts.push($(this).val());
+            });
+
+            $.post('{{route("admin.bills.store")}}',
+            {
+                    "_token": "{{ csrf_token() }}",
+                    fieldset: 'one',
+                    title: title,
+                    default_service: default_service,
+                    type: types,
+                    discount: discounts,
+
+            },
+            function(data, status){
+                if(data.success == true){
+                    bill_id = data.bill_id;
+                    console.log(data.bill_id);
+                }else{
+                    alert('something went wrong!');
+                }
+                
+                
+                    //alert("Data: " + data + "\nStatus: " + status);
+            });
+        }
+
+        if(current_fs == 'fieldsettwo'){
+            var host_name = $('#host_name').val();
+            var deposit = $('#deposit').val();
+            var guests = [];
+            var guest_deposits = [];
+
+            $("input[name='guest_name']").each(function() {
+                guests.push($(this).val());
+            });
+            $("input[name='guest_deposit']").each(function() {
+                guest_deposits.push($(this).val());
+            });
+            console.log('BillId', bill_id);
+            console.log('guests', guests);
+            console.log('guest_deposits', guest_deposits);
+            $.post('{{route("admin.bills.store")}}',
+                {
+                    "_token": "{{ csrf_token() }}",
+                    fieldset: 'two',
+                    bill_id : bill_id,
+                    host_name: host_name,
+                    deposit: deposit,
+                    guests: guests,
+                    guest_deposits: guest_deposits,
+
+                },
+            function(data, status){
+                console.log(data);
+                    //alert("Data: " + data + "\nStatus: " + status);
+            });
+        }
+        
+    }
+
     $(".previous").click(function(){
         
             current_fs = $(this).parent();
@@ -310,9 +384,9 @@
         html += '<div id="discount_types">';
         html += '<div class="form-group">';
         html += '<label for="type">Type: </label>';
-        html += '<input type="text" name="type[]" class="form-control" placeholder="Enter Type">';
+        html += '<input type="text" name="types" class="form-control" placeholder="Enter Type">';
         html += '<label for="type">Discount: </label>';
-        html += '<input type="text" name="discount[]" class="form-control" placeholder="Enter Discount">';
+        html += '<input type="text" name="discount" class="form-control" placeholder="Enter Discount">';
         html += '<button id="removeRow" type="button" class="btn btn-danger" style="margin-top:10px;" >Remove</button>';
         html += '</div>';
         html += '</div>';
@@ -329,10 +403,10 @@
         var html = '';
         html += '<tr>';
         html += '<td>';
-        html += '<input type="text" class="form-control" id="guest_name" placeholder="Enter Name" name="guest_name[]"/>';
+        html += '<input type="text" class="form-control" id="guest_name" placeholder="Enter Name" name="guest_name"/>';
         html += '</td>';
         html += '<td>';
-        html += '<input type="number"   class="form-control" id="deposit" placeholder="Enter Deposit" name="deposit[]"/>';
+        html += '<input type="number"   class="form-control" id="guest_deposit" placeholder="Enter Deposit" name="guest_deposit"/>';
         html += '</td>';
         html += '<td>';
         html += '<a href="#" id="removeguest" class="btn btn-danger"><i class="fas fa-trash"></i></a>';
@@ -357,7 +431,7 @@
         var item_discount_quantity = $('#item_discount_quantity').val();
 
         alert('asd',item_description);
-        
+
         var html = '';
         html += '<div id="itemdetails">';
         html += '<h4>'+item_description+'</h4>';
