@@ -134,16 +134,28 @@ class BillController extends Controller
         
     }
 
-    public function Items(){
-        // $items = DB::table('items')
-        // ->where('bill_id',66)
-        // ->get();
-       $items =  DB::table('items')->select(DB::raw('COUNT(category) as count'), 'category')
-        ->groupBy('category')
-        ->having('count', '>', 0)
-        ->get();
-        return $items;
+    // public function Items(){
+    //     // $items = DB::table('items')
+    //     // ->where('bill_id',66)
+    //     // ->get();
+    //    $items =  DB::table('items')->select(DB::raw('COUNT(category) as count'), 'category')
+    //     ->groupBy('category')
+    //     ->having('count', '>', 0)
+    //     ->get();
+    //     return $items;
+    // }
+
+    public function deleteItems(int $id){
+        if(!empty($id)){
+            DB::table('items')->where('id',$id)->delete();
+            return response()->json([
+                'success' => true,
+                'msg' => "Item Deleted!"
+            ]);
+        }
+       
     }
+
     public function saveItems(Request $request){
         if(!empty($request->item_description)){
             $Id = DB::table('items')->insertGetId([

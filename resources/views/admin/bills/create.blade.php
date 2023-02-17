@@ -601,6 +601,11 @@
         var html = '';
         html += '<div id="itemdetails">';
         html += '<h4>'+item_description+'</h4>';
+        html += '<div id="itemActionsBtns">';
+        html += '<a href="#" >Assign</a>';
+        html += '<a href="#" >Edit</a>';
+        html += '<a href="#" >Delete</a>';
+        html += '</div>';
         html += '</div>';
 
         html += '<div id="pricedetails">';
@@ -609,11 +614,7 @@
         html += '<p>£'+discountedPrice+'</p>';
         html += '</div>';
 
-        html += '<div id="itemActionsBtns">';
-        html += '<a href="#" >Assign</a>';
-        html += '<a href="#" >Edit</a>';
-        html += '<a href="#" >Delete</a>';
-        html += '</div>';
+        
             
         $('.itemslisting').append(html);
         //$("#addItemModal").modal('hide');
