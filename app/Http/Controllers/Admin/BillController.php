@@ -145,9 +145,9 @@ class BillController extends Controller
     //     return $items;
     // }
 
-    public function deleteItems(int $id){
-        if(!empty($id)){
-            DB::table('items')->where('id',$id)->delete();
+    public function deleteItems(Request $request){
+        if(!empty($request->id)){
+            DB::table('items')->where('id',$request->id)->delete();
             return response()->json([
                 'success' => true,
                 'msg' => "Item Deleted!"
@@ -178,6 +178,34 @@ class BillController extends Controller
                 'msg' => "Item Saved!"
             ]);
         }
+    }
+
+    public function getItems(Request $request){
+        
+        $items = DB::table('items')
+        ->where('bill_id',$request->bill_id)
+        ->get();
+
+        return response()->json([
+            'data' => $items,
+            'success' => true,
+            'msg' => "Item Saved!"
+        ]);
+    }
+
+    public function updateItems(Request $request){
+
+            $Id = DB::table('items')->where('id',$request->item_id)->update([
+                'bill_id' => $request->bill_id,
+                'item_description' => $request->item_description,
+                'item_price' => $request->item_price,
+                'quantity' => $request->item_discount_quantity,
+            ]);
+        
+            return response()->json([
+                'success' => true,
+                'msg' => "Item Saved!"
+            ]);
     }
 
     public function deleteBill(int $id){

@@ -228,6 +228,7 @@
     var discountValue;
     var servicePrice;
     var validationErros = false;
+    var updateITemId;
     
     $(".next").click(function(){
         
@@ -559,7 +560,7 @@
                 console.log(data.data);
                 $('#bill_discount_types').find('option').remove();
                 var html = '';
-                html += '<option value="" selected>Select</option>';
+                html += '<option value="" selected disabled>Select</option>';
                 $('#bill_discount_types').append(html);
 
                 data.data.forEach(key => {
@@ -569,130 +570,334 @@
                 });
         });
         $('#addItemModal').modal('show'); 
+
+        $('#btn_saveItem').show();
+        $('#updateItemModalData').hide();
     });
 
-    // add item in list
-    $("#btn_saveItem").click(function () {
-        //alert("asdasd");
-        if($('#item_description').val().length < 1 ){
-                $('#item_description').next("span").empty();
-                $('#item_description').after('<span class="validationerror">This field is required!</span>');
-                validationErros = true;
-                return;
-            }else{
-                $('#types').next("span").empty();
-                validationErros = false;
-        }
+        
 
-       
+    function updateEverything () {
+                     
+                
+                if($('#item_description').val().length < 1 ){
+                        $('#item_description').next("span").empty();
+                        $('#item_description').after('<span class="validationerror">This field is required!</span>');
+                        validationErros = true;
+                        return;
+                    }else{
+                        $('#types').next("span").empty();
+                        validationErros = false;
+                }
+
+
+                var item_description = $('#item_description').val();
+                var item_price = $('#item_price').val();
+                var item_discount_type = $('#item_discount_type').val();
+                var item_discount_quantity = $('#item_discount_quantity').val();
+                discountValue = discountValue;
+                var totalamount = item_price * item_discount_quantity;
+                console.log(totalamount);
+                var percentage = ( totalamount / 100 ) * discountValue;
+                var discountedPrice = totalamount - percentage;
+
+                // console.log(percentage);
+
+                //$("#addItemModal").modal('hide');
+                $('#addItemModal').modal('toggle');
+                document.getElementById('close-modal').click();
+                $('#item_description').val("");
+                $('#item_price').val("");
+                $('#item_discount_quantity').val("");
+
+                //after listing item also save to database 
+                bill_id = localStorage.getItem('bill_id');
+                var category = $('#bill_discount_types').val();
+
+                $.post('{{route("admin.bills.item.store")}}',
+                    {
+                            "_token": "{{ csrf_token() }}",
+                            bill_id : bill_id,
+                            item_description : item_description,
+                            item_price : item_price,
+                            category: category,
+                            quantity : item_discount_quantity,
+                            item_saving : discountValue
+                            
+                    },
+                function(data, status){
+
+                    var categoryArray = [];
+                    var itemsCategoryTotalPrice = 0;
+                    var itemsCategoryTotalPercentage = 0;
+                    var itemsCategoryDiscountedPrice = 0;
+                    var grandTotal =  0;
+                    
+                    console.log(data);
+                    $('.totalCalculation').empty();
+                    $('.itemslisting').empty();
+                            data.data.forEach(key => {
+                                
+                            console.log(key);
+
+                            var eachItemPrice = key.item_price * key.quantity;
+                            console.log('eachItemPrice' , eachItemPrice);
+
+                            var eachItemPercentage = ( eachItemPrice / 100 ) * key.item_saving;
+                            console.log('eachItemPercentage' , eachItemPercentage);
+
+                            var eachItemDiscountPrice = eachItemPrice - eachItemPercentage;
+                            console.log('eachItemDiscountPrice' , eachItemDiscountPrice);
+
+                            var serviceCharges = ( eachItemDiscountPrice / 100 ) * servicePrice;
+
+                            var html = '';
+                            html += '<div id="itemdetails">';
+                            html += '<h4>'+key.item_description+'</h4>';
+                            html += '<div id="itemActionsBtns">';
+                            html += '<a href="#" class="assignItem" data-itemid="'+ key.id +'" data-item_description="'+ key.item_description +'"   data-item_price="'+ key.item_price +'"  data-quantity="'+ key.quantity +'" data-category="'+ key.category +'"><i class="fas fa-tasks"></i></a>';
+                            html += '<a href="#" class="editItem" data-itemid="'+ key.id +'" data-item_description="'+ key.item_description +'"   data-item_price="'+ key.item_price +'"  data-quantity="'+ key.quantity +'" data-category="'+ key.category +'"><i class="fas fa-edit" ></i></a>';
+                            html += '<a href="#" class="deleteItem" data-itemid="'+ key.id +'" data-item_description="'+ key.item_description +'"   data-item_price="'+ key.item_price +'"  data-quantity="'+ key.quantity +'" data-category="'+ key.category +'"><i class="fas fa-trash"></i></a>';
+                            html += '</div>';
+                            html += '</div>';
+
+                            html += '<div id="pricedetails">';
+                            html += '<p><del>£'+eachItemPrice+'</del></p>';
+                            html += '<p> '+key.item_saving +'% Off</p>';
+                            html += '<p>£'+eachItemDiscountPrice+'</p>';
+                            html += '</div>';
+                            $('.itemslisting').append(html); 
+                            
+                            
+                            itemsCategoryTotalPrice = itemsCategoryTotalPrice + eachItemPrice;
+                            itemsCategoryTotalPercentage = itemsCategoryTotalPercentage + eachItemPercentage;
+                            itemsCategoryDiscountedPrice = itemsCategoryDiscountedPrice + eachItemDiscountPrice + serviceCharges;
+                            
+                            
+                        // if(!categoryArray.includes(key.category)){
+                            categoryArray.push(key.category);
+                            console.log(key);
+                            var html = '';
+                            html += '<span> '+key.category+' ('+key.item_description+') Total:<span> <del>£'+eachItemPrice+' </del> £'+eachItemDiscountPrice+'</span></span> <br>';
+                            html += '<span> Saving :   <span>£'+eachItemPercentage+'</span></span><br>';
+                            html += ' <span> Service :   <span> £'+serviceCharges.toFixed(2)+'</span></span><br>';
+                            $('.totalCalculation').append(html);
+                        // } 
+                        
+
+
+                    });
+                    console.log('itemsCategoryTotalPrice' , itemsCategoryTotalPrice);
+                    console.log('itemsCategoryTotalPercentage' , itemsCategoryTotalPercentage);
+                    console.log('itemsCategoryDiscountedPrice' , itemsCategoryDiscountedPrice);
+                    var html = '';
+                    html += '<strong> <span> Grand Total:  <span> £'+itemsCategoryDiscountedPrice.toFixed(2) +'</span> </span></strong>';
+                    $('.totalCalculation').append(html);
+                    // display grand total prices
+                    
+
+                });
+
+
+    }
+    
+    function updateData () {
+                     
+                     discountValue = discountValue;
+                     console.log("updateData" ,discountValue);
+                    
+                     //after listing item also save to database 
+                     bill_id = localStorage.getItem('bill_id');
+                     console.log("updateData" ,bill_id);
+     
+                     $.post('{{route("admin.bills.getItems")}}',
+                         {
+                                 "_token": "{{ csrf_token() }}",
+                                 bill_id : bill_id,         
+                         },
+                     function(data, status){
+                        console.log("updateData" ,data);
+                         var categoryArray = [];
+                         var itemsCategoryTotalPrice = 0;
+                         var itemsCategoryTotalPercentage = 0;
+                         var itemsCategoryDiscountedPrice = 0;
+                         var grandTotal =  0;
+                         
+                         console.log(data);
+                         $('.totalCalculation').empty();
+                         $('.itemslisting').empty();
+                                 data.data.forEach(key => {
+                                     
+                                 console.log(key);
+     
+                                 var eachItemPrice = key.item_price * key.quantity;
+                                 console.log('eachItemPrice' , eachItemPrice);
+     
+                                 var eachItemPercentage = ( eachItemPrice / 100 ) * key.item_saving;
+                                 console.log('eachItemPercentage' , eachItemPercentage);
+     
+                                 var eachItemDiscountPrice = eachItemPrice - eachItemPercentage;
+                                 console.log('eachItemDiscountPrice' , eachItemDiscountPrice);
+     
+                                 var serviceCharges = ( eachItemDiscountPrice / 100 ) * servicePrice;
+     
+                                 var html = '';
+                                 html += '<div id="itemdetails">';
+                                 html += '<h4>'+key.item_description+'</h4>';
+                                 html += '<div id="itemActionsBtns">';
+                                 html += '<a href="#" class="assignItem" data-itemid="'+ key.id +'" data-item_description="'+ key.item_description +'"   data-item_price="'+ key.item_price +'"  data-quantity="'+ key.quantity +'" data-category="'+ key.category +'"><i class="fas fa-tasks"></i></a>';
+                                 html += '<a href="#" class="editItem" data-itemid="'+ key.id +'" data-item_description="'+ key.item_description +'"   data-item_price="'+ key.item_price +'"  data-quantity="'+ key.quantity +'" data-category="'+ key.category +'"><i class="fas fa-edit" ></i></a>';
+                                 html += '<a href="#" class="deleteItem" data-itemid="'+ key.id +'" data-item_description="'+ key.item_description +'"   data-item_price="'+ key.item_price +'"  data-quantity="'+ key.quantity +'" data-category="'+ key.category +'"><i class="fas fa-trash"></i></a>';
+                                 html += '</div>';
+                                 html += '</div>';
+     
+                                 html += '<div id="pricedetails">';
+                                 html += '<p><del>£'+eachItemPrice+'</del></p>';
+                                 html += '<p> '+key.item_saving +'% Off</p>';
+                                 html += '<p>£'+eachItemDiscountPrice+'</p>';
+                                 html += '</div>';
+                                 $('.itemslisting').append(html); 
+                                 
+                                 
+                                 itemsCategoryTotalPrice = itemsCategoryTotalPrice + eachItemPrice;
+                                 itemsCategoryTotalPercentage = itemsCategoryTotalPercentage + eachItemPercentage;
+                                 itemsCategoryDiscountedPrice = itemsCategoryDiscountedPrice + eachItemDiscountPrice + serviceCharges;
+                                 
+                                 
+                             // if(!categoryArray.includes(key.category)){
+                                 categoryArray.push(key.category);
+                                 console.log(key);
+                                 var html = '';
+                                 html += '<span> '+key.category+' ('+key.item_description+') Total:<span> <del>£'+eachItemPrice+' </del> £'+eachItemDiscountPrice+'</span></span> <br>';
+                                 html += '<span> Saving :   <span>£'+eachItemPercentage+'</span></span><br>';
+                                 html += ' <span> Service :   <span> £'+serviceCharges.toFixed(2)+'</span></span><br>';
+                                 $('.totalCalculation').append(html);
+                             // } 
+                             
+     
+     
+                         });
+                         console.log('itemsCategoryTotalPrice' , itemsCategoryTotalPrice);
+                         console.log('itemsCategoryTotalPercentage' , itemsCategoryTotalPercentage);
+                         console.log('itemsCategoryDiscountedPrice' , itemsCategoryDiscountedPrice);
+                         var html = '';
+                         html += '<strong> <span> Grand Total:  <span> £'+itemsCategoryDiscountedPrice.toFixed(2) +'</span> </span></strong>';
+                         $('.totalCalculation').append(html);
+                         // display grand total prices
+                         
+     
+                     });
+     
+     
+    }
+
+    // add item in list
+    $("#btn_saveItem").click(function() {
+                updateEverything();
+    });
+
+    $(document).on('click' ,'.deleteItem' ,function () {
+            console.log("this",$(this).attr('data-itemid'));
+            console.log($(this).attr('data-itemid'));
+            $.post('{{route("admin.bills.item.delete")}}',
+                {
+                        "_token": "{{ csrf_token() }}",
+                        id : $(this).attr('data-itemid'),   
+                },
+            function(data, status){
+                console.log(data);
+                updateData();
+
+            }
+        );
+    });
+
+    $(document).on('click' ,'.editItem' ,function () {
+        
+            console.log("this",$(this).attr('data-itemid'));
+            console.log($(this).attr('data-itemid'));
+            bill_id = localStorage.getItem('bill_id');
+
+            
+
+            updateITemId = $(this).attr('data-itemid');
+            var updateITemDescription = $(this).attr('data-item_description');
+            var updateItemPrice = $(this).attr('data-item_price');
+            var updateITemQuantity = $(this).attr('data-quantity');
+            var updateITemCategory = $(this).attr('data-category');
+
+            
+
+            $('#addItemModal').modal('show');
+
+            console.log("bill_id again check",bill_id);
+            console.log("updateITemDescription",updateITemDescription);
+            console.log("updateITemQuantity",updateITemQuantity);
+
+            $('#item_description').val(updateITemDescription);
+            $('#item_price').val(updateItemPrice);
+            $('#item_discount_quantity').val(updateITemQuantity);
+
+            $.post('{{route("admin.bills.discountTypes")}}',
+                {
+                        "_token": "{{ csrf_token() }}",
+                        bill_id : bill_id,
+                },
+            function(data, status){
+                    console.log(data.data);
+                    $('#bill_discount_types').find('option').remove();
+                    var html = '';
+                    html += '<option value="" selected disabled>Select</option>';
+                    $('#bill_discount_types').append(html);
+
+                    data.data.forEach(key => {
+                        var html = '';
+                            html += '<option value='+key.type+'>'+key.type+'</option>';      
+                        $('#bill_discount_types').append(html);
+                    });
+
+                   
+
+                    var html = '';
+                            html += '<button class="btn btn-success">Update</button>'; 
+                    $('#updateItemModalData').remove();             
+                    $('#btn_saveItem').after("<a href='#' id='updateItemModalData'  class='btn btn-success'>Update</a>");
+                    $('#btn_saveItem').hide();
+            });
+    });
+
+    $(document).on('click' ,'#updateItemModalData' ,function () {
         var item_description = $('#item_description').val();
         var item_price = $('#item_price').val();
         var item_discount_type = $('#item_discount_type').val();
         var item_discount_quantity = $('#item_discount_quantity').val();
-        discountValue = discountValue;
-        var totalamount = item_price * item_discount_quantity;
-        console.log(totalamount);
-        var percentage = ( totalamount / 100 ) * discountValue;
-        var discountedPrice = totalamount - percentage;
-        
-        // console.log(percentage);
-        
+        console.log("updateModalData",updateITemId,"-----",item_description);
 
-        var html = '';
-        html += '<div id="itemdetails">';
-        html += '<h4>'+item_description+'</h4>';
-        html += '<div id="itemActionsBtns">';
-        html += '<a href="#" ><i class="fas fa-tasks"></i></a>';
-        html += '<a href="#" ><i class="fas fa-edit" ></i></a>';
-        html += '<a href="#" ><i class="fas fa-trash"></i></a>';
-        html += '</div>';
-        html += '</div>';
-
-        html += '<div id="pricedetails">';
-        html += '<p><del>£'+totalamount+'</del></p>';
-        html += '<p> '+discountValue +'% Off</p>';
-        html += '<p>£'+discountedPrice+'</p>';
-        html += '</div>';
-
-        
-            
-        $('.itemslisting').append(html);
-        //$("#addItemModal").modal('hide');
-        $('#addItemModal').modal('toggle');
-        document.getElementById('close-modal').click();
-        $('#item_description').val("");
-        $('#item_price').val("");
-        $('#item_discount_quantity').val("");
-
-        //after listing item also save to database 
-        bill_id = localStorage.getItem('bill_id');
-        var category = $('#bill_discount_types').val();
-        
-        $.post('{{route("admin.bills.item.store")}}',
-            {
-                    "_token": "{{ csrf_token() }}",
-                    bill_id : bill_id,
-                    item_description : item_description,
-                    item_price : item_price,
-                    category: category,
-                    quantity : item_discount_quantity,
-                    item_saving : discountValue
-                    
-            },
+        $.post('{{route("admin.bills.item.update")}}',
+        {
+                "_token": "{{ csrf_token() }}",
+                item_id: updateITemId,
+                bill_id : bill_id, 
+                item_description : item_description, 
+                item_price : item_price, 
+                item_discount_quantity : item_discount_quantity,         
+        },
         function(data, status){
-            var categoryArray = [];
-            var itemsCategoryTotalPrice = 0;
-            var itemsCategoryTotalPercentage = 0;
-            var itemsCategoryDiscountedPrice = 0;
-            var grandTotal =  0;
-            
-            console.log(data);
-            $('.totalCalculation').empty();
-            data.data.forEach(key => {
+                        console.log("updateData" ,data);
+                        $('#addItemModal').modal('toggle');
+                        updateData();
 
-                    console.log(key);
-
-                    var eachItemPrice = key.item_price * key.quantity;
-                    console.log('eachItemPrice' , eachItemPrice);
-
-                    var eachItemPercentage = ( eachItemPrice / 100 ) * key.item_saving;
-                    console.log('eachItemPercentage' , eachItemPercentage);
-
-                    var eachItemDiscountPrice = eachItemPrice - eachItemPercentage;
-                    console.log('eachItemDiscountPrice' , eachItemDiscountPrice);
-
-                    var serviceCharges = ( eachItemDiscountPrice / 100 ) * servicePrice;
-
-
-                    itemsCategoryTotalPrice = itemsCategoryTotalPrice + eachItemPrice;
-                    itemsCategoryTotalPercentage = itemsCategoryTotalPercentage + eachItemPercentage;
-                    itemsCategoryDiscountedPrice = itemsCategoryDiscountedPrice + eachItemDiscountPrice + serviceCharges;
-                    
-                    
-                // if(!categoryArray.includes(key.category)){
-                    categoryArray.push(key.category);
-                    console.log(key);
-                    var html = '';
-                    html += '<span> '+key.category+' ('+key.item_description+') Total:<span> <del>£'+eachItemPrice+' </del> £'+eachItemDiscountPrice+'</span></span> <br>';
-                    html += '<span> Saving :   <span>£'+eachItemPercentage+'</span></span><br>';
-                    html += ' <span> Service :   <span> £'+serviceCharges.toFixed(2)+'</span></span><br>';
-                    $('.totalCalculation').append(html);
-                // } 
-                
-
-
-            });
-            console.log('itemsCategoryTotalPrice' , itemsCategoryTotalPrice);
-            console.log('itemsCategoryTotalPercentage' , itemsCategoryTotalPercentage);
-            console.log('itemsCategoryDiscountedPrice' , itemsCategoryDiscountedPrice);
-            var html = '';
-            html += '<strong> <span> Grand Total:  <span> £'+itemsCategoryDiscountedPrice.toFixed(2) +'</span> </span></strong>';
-            $('.totalCalculation').append(html);
-            // display grand total prices
-            
+        }
+        );
+       
         
-        });
     });
-
+            
+    
+    
+ 
+        
+    
+    
 </script>
 @endsection
