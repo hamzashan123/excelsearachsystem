@@ -676,10 +676,10 @@ div#itemActionsBtns {
     padding: 08px;
 }
 
-i.fas.fa-trash {
+.itemActionsBtns i.fas.fa-trash {
     color: red;
 }
 
-i.fas.fa-tasks {
+.itemActionsBtns i.fas.fa-tasks {
     color: grey;
 }
