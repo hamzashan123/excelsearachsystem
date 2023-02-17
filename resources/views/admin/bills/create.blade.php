@@ -39,7 +39,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="description">Discount:</label>
-                                        <input type="number"   class="form-control" id="discount" placeholder="Enter discount" name="discount"/>
+                                        <input type="number"   class="form-control" id="discount" placeholder="Enter discount Percentage" name="discount"/>
                                     </div>
                                 </div>
                                 <div id="newRow"></div>
@@ -490,7 +490,7 @@
         html += '<label for="type">Type: </label>';
         html += '<input type="text" name="types" class="form-control" placeholder="Enter Type">';
         html += '<label for="type">Discount: </label>';
-        html += '<input type="text" name="discount" class="form-control" placeholder="Enter Discount">';
+        html += '<input type="text" name="discount" class="form-control" placeholder="Enter discount Percentage">';
         html += '<button id="removeRow" type="button" class="btn btn-danger" style="margin-top:10px;" >Remove</button>';
         html += '</div>';
         html += '</div>';

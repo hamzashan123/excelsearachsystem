@@ -548,3 +548,91 @@ form.loginform h4 {
 .validationerror {
     color: red;
 }
+
+.header-container {
+    height: auto !important;
+}
+
+.card-body h3 {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+table.table {
+    text-align: center;
+}
+
+fieldset h3 {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+fieldset label {
+    font-size: 17px;
+    font-weight: 400;
+}
+
+fieldset input {
+    height: 50px !important;
+    border-radius: 0px !important;
+}
+
+fieldset .btn.btn-success {
+    padding: 10px 30px;
+    border-radius: 0px;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+input.next.action-button {
+    padding: 10px 30px !important;
+    border-radius: 0px;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    width: auto !important;
+}
+
+input.previous.action-button-previous {
+    padding: 10px 30px !important;
+    border-radius: 0px;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    width: auto !important;
+}
+
+tbody#guests_row td {
+    padding: 0px;
+    padding-top: 10px;
+}
+
+tbody#guests_row td:nth-child(2), tbody#guests_row td:nth-child(3) {
+    padding-left: 10px !important;
+}
+
+tbody#guests_row td:nth-child(3) a {
+    position: relative;
+    top: 10px;
+    left: 21px;
+}
+
+li.viewbill a.btn.btn-success.pull-right {
+    padding: 10px 30px !important;
+    border-radius: 0px;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    line-height: 21px !important;
+    height: auto;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
