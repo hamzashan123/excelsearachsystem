@@ -507,36 +507,11 @@ form.loginform h4 {
 }
 
 
-.itemsdiv {
-    display: inline-block;
-    width: 100%;
-}
-
-.itemslisting {
-    display: inline-block;
-    width: 69%;
-}
-
-.hostguestlisting {
-    display: inline-block;
-    width: 30%;
-}
-
-
 .hostguestlisting .form-group.hosts, .hostguestlisting .form-group.guests {
     width: 100% !important;
     height: auto;
 }
 
-.itemdetails {
-    width: 70%;
-    display: inline-block;
-}
-
-.pricedetails {
-    width: 27%;
-    display: inline-block !important;
-}
 
 .pricedetails p {
     margin-bottom: 0px;
@@ -623,6 +598,19 @@ tbody#guests_row td:nth-child(3) a {
 }
 
 li.viewbill a.btn.btn-success.pull-right {
+    padding: 10px 30px !important;
+    border-radius: 0px;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    line-height: 21px !important;
+    height: auto;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+a.btn.btn-success.pull-right.mb-5 {
     padding: 10px 30px !important;
     border-radius: 0px;
     font-size: 16px;

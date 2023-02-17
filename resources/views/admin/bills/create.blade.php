@@ -112,14 +112,15 @@
                                         </div>
                                        
 
-                                        <input type="button" name="btn_addItemModal"  id="btn_addItemModal" class="form-control btn btn-success" value="Add"/> 
+                                       
                                         </div>
+                                        <input type="button" name="btn_addItemModal"  id="btn_addItemModal" class="form-control btn btn-success" value="Add"/> 
                                         <div class="totalCalculation">
                                          
                                         </div>
                              </div>
-                                <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
-                                <input type="button" name="next" class="next action-button" value="Continue"/>
+                                <!-- <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+                                <input type="button" name="next" class="next action-button" value="Continue"/> -->
                                 
                             </fieldset>
 
