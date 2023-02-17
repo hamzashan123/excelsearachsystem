@@ -28,7 +28,7 @@
                             <tr>
                                 <th scope="row">{{$bill->id}}</th>
                                 <td>{{$bill->title}}</td>
-                                <td><a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a></td>
+                                <td><a href="{{route('admin.bills.delete',['id' => $bill->id])}}"  class="btn btn-danger"><i class="fas fa-trash"></i></a></td>
                             </tr>
                         @endforeach
                         </tbody>

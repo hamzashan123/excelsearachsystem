@@ -545,3 +545,6 @@ form.loginform h4 {
 .hostguestlisting p {
     margin-bottom: 0;
 }
+.validationerror {
+    color: red;
+}

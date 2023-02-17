@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,32 +21,9 @@ class BillController extends Controller
         return view('admin.bills.create');
     }
 
-    public function getDiscountTypes(Request $request){
-        if(!empty($request->bill_id) && !empty($request->type) ){
-            $discountTypes = DB::table('discount_types')
-                            ->where('bill_id',$request->bill_id)
-                            ->where('type',$request->type)
-                            ->first();
-
-            return response()->json([
-                'data' => $discountTypes,
-                'success' => true,
-                'msg' => "Data found!"
-            ]);
-        }else{
-                $discountTypes = DB::table('discount_types')
-                                ->where('bill_id',$request->bill_id)
-                                ->get();
     
-                return response()->json([
-                    'data' => $discountTypes,
-                    'success' => true,
-                    'msg' => "Data found!"
-                ]);
-        }
-        
-        
-    }
+
+    
 
     public function store(Request $request){
         
@@ -100,6 +78,139 @@ class BillController extends Controller
 
         }
             
+    }
+
+
+    public function getDiscountTypes(Request $request){
+        if(!empty($request->bill_id) && !empty($request->type) ){
+            $discountTypes = DB::table('discount_types')
+                            ->where('bill_id',$request->bill_id)
+                            ->where('type',$request->type)
+                            ->first();
+            $servicePrice = DB::table('bills')->where('id',$request->bill_id)->first()->default_service;
+            return response()->json([
+                'data' => $discountTypes,
+                'servicePrice' => $servicePrice,
+                'success' => true,
+                'msg' => "Data found!"
+            ]);
+        }else{
+                $discountTypes = DB::table('discount_types')
+                                ->where('bill_id',$request->bill_id)
+                                ->get();
+    
+                return response()->json([
+                    'data' => $discountTypes,
+                    'success' => true,
+                    'msg' => "Data found!"
+                ]);
+        }
+        
+        
+    }
+
+    public function getHostGuest(Request $request){
+
+        if(!empty($request->bill_id)){
+            $host = DB::table('hosts')
+            ->where('bill_id',$request->bill_id)
+            ->first();
+            $guests = DB::table('guests')
+                    ->where('bill_id',$request->bill_id)
+                    ->get();
+
+            return response()->json([
+                        'host' => $host,
+                        'guests' => $guests,
+                        'success' => true,
+                        'msg' => "Data found!"
+            ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'msg' => "No Data found!"
+                ]);
+        }
+        
+    }
+
+    public function Items(){
+        // $items = DB::table('items')
+        // ->where('bill_id',66)
+        // ->get();
+       $items =  DB::table('items')->select(DB::raw('COUNT(category) as count'), 'category')
+        ->groupBy('category')
+        ->having('count', '>', 0)
+        ->get();
+        return $items;
+    }
+    public function saveItems(Request $request){
+        if(!empty($request->item_description)){
+            $Id = DB::table('items')->insertGetId([
+                'bill_id' => $request->bill_id,
+                'item_description' => $request->item_description,
+                'item_price' => $request->item_price,
+                'category' => $request->category,
+                'quantity' => $request->quantity,
+                'item_saving' => $request->item_saving,
+            ]);
+            
+            $items = DB::table('items')
+                    ->where('bill_id',$request->bill_id)
+                    ->get();
+
+            return response()->json([
+                'data' => $items,
+                'success' => true,
+                'bill_id' => $Id,
+                'msg' => "Item Saved!"
+            ]);
+        }
+    }
+
+    public function deleteBill(int $id){
+        try{
+            DB::table('bills')
+            ->where('id',$id)
+            ->delete();
+        }catch(Exception $e){
+
+        }
+
+        try{
+            DB::table('discount_types')
+            ->where('bill_id',$id)
+            ->delete();
+        }catch(Exception $e){
+            
+        }
+
+        try{
+            DB::table('hosts')
+            ->where('bill_id',$id)
+            ->delete();
+        }catch(Exception $e){
+            
+        }
+
+        try{
+            DB::table('guests')
+            ->where('bill_id',$id)
+            ->delete();
+        }catch(Exception $e){
+            
+        }
+        
+        try{
+            DB::table('items')
+            ->where('bill_id',$id)
+            ->delete();
+        }catch(Exception $e){
+            
+        }
+                   
+
+        return redirect()->back()->with('success','Bill Deleted');
     }
 
 

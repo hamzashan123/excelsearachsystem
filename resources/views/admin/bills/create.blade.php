@@ -37,7 +37,7 @@
                                         <label for="type">Type:</label>
                                         <input type="text"  class="form-control" id="types"  placeholder="Enter type" name="types">
                                     </div>
-                                    <div class="form-group" id="discount">
+                                    <div class="form-group">
                                         <label for="description">Discount:</label>
                                         <input type="number"   class="form-control" id="discount" placeholder="Enter discount" name="discount"/>
                                     </div>
@@ -97,31 +97,26 @@
                             
                             <fieldset id="fieldsetthree">
                              <div class="form-card">
-                                    <center> <a href="#">Update Discount/name </a> | <a href="#">Update Guests</a> </center>
-                                      <h3>Test</h3>
+                                    <!-- <center> <a href="#">Update Discount/name </a> | <a href="#">Update Guests</a> </center> -->
+                                     <center> <h3 id="bill_name"></h3> </center>
 
                                         <div class="itemsdiv">
+                                            <!-- Dynamic items list here -->
                                         <div class="itemslisting">
                                             
                                         </div>
+
+                                        <!-- Dynamic host and guest list here -->
                                         <div class="hostguestlisting">
-                                            <div class="form-group hosts">
-
-                                                <p>Adrian</p>
-                                                <p>£0.00</p>
-                                                
-                                            </div>
-                                            <div class="form-group guests">
-
-                                                <p>Tam</p>
-                                                <p>£-20.00</p>
-
-                                            </div>
+                                            
                                         </div>
                                        
 
-                                    <input type="button" name="btn_addItemModal"  id="btn_addItemModal" class="form-control btn btn-success" value="Add"/> 
-                                </div>
+                                        <input type="button" name="btn_addItemModal"  id="btn_addItemModal" class="form-control btn btn-success" value="Add"/> 
+                                        </div>
+                                        <div class="totalCalculation">
+                                         
+                                        </div>
                              </div>
                                 <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
                                 <input type="button" name="next" class="next action-button" value="Continue"/>
@@ -202,7 +197,7 @@
 
                             <div class="col-md-6">
                                
-                                <input type="number" id="block" name="block" min="1" class="form-control">
+                                <input type="number" id="item_discount_quantity" name="item_discount_quantity" min="1" placeholder="Enter Quantity" class="form-control">
                             </div>
                         </div>
 
@@ -230,6 +225,8 @@
     var bill_id;
     var selectedDiscountType;
     var discountValue;
+    var servicePrice;
+    var validationErros = false;
     
     $(".next").click(function(){
         
@@ -240,31 +237,76 @@
         //Add Class Active
         $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
         
-        //show the next fieldset
-        next_fs.show(); 
-        //hide the current fieldset with style
-        current_fs.animate({opacity: 0}, {
-            step: function(now) {
-                // for making fielset appear animation
-                opacity = 1 - now;
-    
-                current_fs.css({
-                    'display': 'none',
-                    'position': 'relative'
-                });
-                next_fs.css({'opacity': opacity});
-            }, 
-            duration: 600
-        });
+        
+        if(validationErros == false){
+             //show the next fieldset
+            next_fs.show(); 
+            //hide the current fieldset with style
+            current_fs.animate({opacity: 0}, {
+                step: function(now) {
+                    // for making fielset appear animation
+                    opacity = 1 - now;
+        
+                    current_fs.css({
+                        'display': 'none',
+                        'position': 'relative'
+                    });
+                    next_fs.css({'opacity': opacity});
+                }, 
+                duration: 600
+            });
+        }
+       
     });
     
     function saveBill(current_fs){
+        
         //console.log(current_fs);
         if(current_fs == 'fieldsetone'){
             var title = $('#title').val();
             var default_service = $('#default_service').val();
             var types = [];
             var discounts = [];
+            console.log(title);
+            if(title.length < 1){
+                $('#title').next("span").empty();
+                $('#title').after('<span class="validationerror">This field is required!</span>');
+                validationErros = true;
+                return;
+            }else{
+                $('#title').next("span").empty();
+                validationErros = false;
+            }
+            if(default_service.length < 1){
+                $('#default_service').next("span").empty();
+                $('#default_service').after('<span class="validationerror">This field is required!</span>');
+                validationErros = true;
+                return;
+            }else{
+                $('#default_service').next("span").empty();
+                validationErros = false;
+            }
+            if($('#types').val().length < 1 ){
+                $('#types').next("span").empty();
+                $('#types').after('<span class="validationerror">This field is required!</span>');
+                validationErros = true;
+                return;
+            }else{
+                $('#types').next("span").empty();
+                validationErros = false;
+            }
+            if($('#discount').val().length < 1){
+                console.log($('#discount').val().length);
+                $('#discount').next("span").empty();
+                $('#discount').after('<span class="validationerror">This field is required!</span>');
+                validationErros = true;
+                return;
+            }else{
+                $('#discount').next("span").empty();
+                validationErros == false;
+            }
+            console.log(validationErros);
+            validationErros == false;
 
             $("input[name='types']").each(function() {
                 types.push($(this).val());
@@ -290,6 +332,7 @@
                     localStorage.removeItem("bill_id");
                     localStorage.setItem('bill_id', bill_id);
                     console.log(data.bill_id);
+                    $('#bill_name').text(title);
                 }else{
                     alert('something went wrong!');
                 }
@@ -304,7 +347,44 @@
             var deposit = $('#deposit').val();
             var guests = [];
             var guest_deposits = [];
-
+            validationErros = false;
+            if($('#host_name').val().length < 1){
+                $('#host_name').next("span").empty();
+                $('#host_name').after('<span class="validationerror">This field is required!</span>');
+                validationErros = true;
+                return;
+            }else{
+                $('#host_name').next("span").empty();
+                validationErros == false;
+            }
+            if($('#deposit').val().length < 1){
+                $('#deposit').next("span").empty();
+                $('#deposit').after('<span class="validationerror">This field is required!</span>');
+                validationErros = true;
+                return;
+            }else{
+                $('#deposit').next("span").empty();
+                validationErros == false;
+            }
+            // if($('#guest_name').val().length < 1){
+            //     $('#guest_name').next("span").empty();
+            //     $('#guest_name').after('<span class="validationerror">This field is required!</span>');
+            //     validationErros = true;
+            //     return;
+            // }else{
+            //     $('#guest_name').next("span").empty();
+            //     validationErros == false;
+            // }
+            // if($('#guest_deposit').val().length < 1){
+            //     $('#guest_deposit').next("span").empty();
+            //     $('#guest_deposit').after('<span class="validationerror">This field is required!</span>');
+            //     validationErros = true;
+            //     return;
+            // }else{
+            //     $('#guest_deposit').next("span").empty();
+            //     validationErros == false;
+            // }
+            validationErros == false;
             $("input[name='guest_name']").each(function() {
                 guests.push($(this).val());
             });
@@ -314,6 +394,8 @@
             console.log('BillId', bill_id);
             console.log('guests', guests);
             console.log('guest_deposits', guest_deposits);
+            
+
             $.post('{{route("admin.bills.store")}}',
                 {
                     "_token": "{{ csrf_token() }}",
@@ -327,7 +409,36 @@
                 },
             function(data, status){
                 console.log(data);
-                    //alert("Data: " + data + "\nStatus: " + status);
+            });
+
+
+            //disaply saved data with ids
+            $.post('{{route("admin.bills.hostguest")}}',
+                {
+                    "_token": "{{ csrf_token() }}", 
+                    bill_id : bill_id,
+                },
+            function(data, status){
+                console.log(data);
+                
+                //display saved guest and host data to next screen
+                var html = '';
+                html += '<div class="form-group hosts">';
+                html += '<p>'+data.host.name+'</p>';
+                html += '<p>£'+data.host.deposit+'</p>';
+                html += '</div>';
+                $('.hostguestlisting').append(html);
+
+                data.guests.forEach(key => {
+                    var html = '';
+                    html += '<div class="form-group guests">';
+                    html += '<p>'+key.name+'</p>';
+                    html += '<p>£'+ -key.deposit+'</p>';
+                    html += '</div>'; 
+                    
+                    $('.hostguestlisting').append(html);
+                });
+                
             });
         }
         
@@ -391,7 +502,7 @@
         $(this).closest('#discount_types').remove();
     });
 
-    // add guests
+    // // add guests
     $("#add_guest").click(function () {
         var html = '';
         html += '<tr>';
@@ -428,7 +539,9 @@
             },
         function(data, status){
                 console.log(data.data);
+                console.log(data.servicePrice);
                 discountValue = data.data.discount;
+                servicePrice = data.servicePrice;
                     //alert("Data: " + data + "\nStatus: " + status);
         });
     });
@@ -444,49 +557,140 @@
         function(data, status){
                 console.log(data.data);
                 $('#bill_discount_types').find('option').remove();
+                var html = '';
+                html += '<option value="" selected>Select</option>';
+                $('#bill_discount_types').append(html);
+
                 data.data.forEach(key => {
-                    
                     var html = '';
                         html += '<option value='+key.type+'>'+key.type+'</option>';      
                     $('#bill_discount_types').append(html);
-                 // console.log(key); // 👉️ name, country
                 });
-                
-                
-                    //alert("Data: " + data + "\nStatus: " + status);
         });
         $('#addItemModal').modal('show'); 
     });
+
     // add item in list
     $("#btn_saveItem").click(function () {
         //alert("asdasd");
+        if($('#item_description').val().length < 1 ){
+                $('#item_description').next("span").empty();
+                $('#item_description').after('<span class="validationerror">This field is required!</span>');
+                validationErros = true;
+                return;
+            }else{
+                $('#types').next("span").empty();
+                validationErros = false;
+        }
+
+       
         var item_description = $('#item_description').val();
         var item_price = $('#item_price').val();
         var item_discount_type = $('#item_discount_type').val();
         var item_discount_quantity = $('#item_discount_quantity').val();
         discountValue = discountValue;
-        var percentage = Math.round(((item_price / discountValue) * 100)) +"%";
-        console.log(percentage);
+        var totalamount = item_price * item_discount_quantity;
+        console.log(totalamount);
+        var percentage = ( totalamount / 100 ) * discountValue;
+        var discountedPrice = totalamount - percentage;
+        
+        // console.log(percentage);
         
 
         var html = '';
         html += '<div id="itemdetails">';
         html += '<h4>'+item_description+'</h4>';
-        html += '<p>Click to update</p>';
         html += '</div>';
 
         html += '<div id="pricedetails">';
-        html += '<p><del>£'+item_price+'</del></p>';
-        html += '<p> '+percentage +' Off</p>';
-        html += '<p>£'+item_price+'</p>';
+        html += '<p><del>£'+totalamount+'</del></p>';
+        html += '<p> '+discountValue +'% Off</p>';
+        html += '<p>£'+discountedPrice+'</p>';
+        html += '</div>';
+
+        html += '<div id="itemActionsBtns">';
+        html += '<a href="#" >Assign</a>';
+        html += '<a href="#" >Edit</a>';
+        html += '<a href="#" >Delete</a>';
         html += '</div>';
             
         $('.itemslisting').append(html);
         //$("#addItemModal").modal('hide');
         $('#addItemModal').modal('toggle');
         document.getElementById('close-modal').click();
-    });
+        $('#item_description').val("");
+        $('#item_price').val("");
+        $('#item_discount_quantity').val("");
 
+        //after listing item also save to database 
+        bill_id = localStorage.getItem('bill_id');
+        var category = $('#bill_discount_types').val();
+        
+        $.post('{{route("admin.bills.item.store")}}',
+            {
+                    "_token": "{{ csrf_token() }}",
+                    bill_id : bill_id,
+                    item_description : item_description,
+                    item_price : item_price,
+                    category: category,
+                    quantity : item_discount_quantity,
+                    item_saving : discountValue
+                    
+            },
+        function(data, status){
+            var categoryArray = [];
+            var itemsCategoryTotalPrice = 0;
+            var itemsCategoryTotalPercentage = 0;
+            var itemsCategoryDiscountedPrice = 0;
+            var grandTotal =  0;
+            
+            console.log(data);
+            $('.totalCalculation').empty();
+            data.data.forEach(key => {
+
+                    console.log(key);
+
+                    var eachItemPrice = key.item_price * key.quantity;
+                    console.log('eachItemPrice' , eachItemPrice);
+
+                    var eachItemPercentage = ( eachItemPrice / 100 ) * key.item_saving;
+                    console.log('eachItemPercentage' , eachItemPercentage);
+
+                    var eachItemDiscountPrice = eachItemPrice - eachItemPercentage;
+                    console.log('eachItemDiscountPrice' , eachItemDiscountPrice);
+
+                    var serviceCharges = ( eachItemDiscountPrice / 100 ) * servicePrice;
+
+
+                    itemsCategoryTotalPrice = itemsCategoryTotalPrice + eachItemPrice;
+                    itemsCategoryTotalPercentage = itemsCategoryTotalPercentage + eachItemPercentage;
+                    itemsCategoryDiscountedPrice = itemsCategoryDiscountedPrice + eachItemDiscountPrice + serviceCharges;
+                    
+                    
+                // if(!categoryArray.includes(key.category)){
+                    categoryArray.push(key.category);
+                    console.log(key);
+                    var html = '';
+                    html += '<span> '+key.category+' ('+key.item_description+') Total:<span> <del>£'+eachItemPrice+' </del> £'+eachItemDiscountPrice+'</span></span> <br>';
+                    html += '<span> Saving :   <span>£'+eachItemPercentage+'</span></span><br>';
+                    html += ' <span> Service :   <span> £'+serviceCharges.toFixed(2)+'</span></span><br>';
+                    $('.totalCalculation').append(html);
+                // } 
+                
+
+
+            });
+            console.log('itemsCategoryTotalPrice' , itemsCategoryTotalPrice);
+            console.log('itemsCategoryTotalPercentage' , itemsCategoryTotalPercentage);
+            console.log('itemsCategoryDiscountedPrice' , itemsCategoryDiscountedPrice);
+            var html = '';
+            html += '<strong> <span> Grand Total:  <span> £'+itemsCategoryDiscountedPrice.toFixed(2) +'</span> </span></strong>';
+            $('.totalCalculation').append(html);
+            // display grand total prices
+            
+        
+        });
+    });
 
 </script>
 @endsection
