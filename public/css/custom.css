@@ -635,3 +635,51 @@ a.btn.btn-success.pull-right.mb-5 {
 }
 
 .itemsdiv {display: flex;}
+.itemslisting {
+    width: 60%;
+    display: inline-block;
+}
+
+.hostguestlisting {
+    width: 40%;
+    display: inline-block;
+}
+
+.itemsdiv {display: flex;}
+
+
+div#itemdetails {
+    width: 70%;
+
+    display: inline-block;
+}
+
+div#pricedetails {
+    width: 25%;
+    display: inline-block;
+}
+
+div#pricedetails p {
+    margin-bottom: 0;
+    font-weight: 600;
+}
+
+div#itemActionsBtns {
+    display: flex;
+    justify-content: space-around;
+}
+.totalCalculation {
+    margin-top: 10px;
+}
+
+.totalCalculation span {
+    padding: 08px;
+}
+
+i.fas.fa-trash {
+    color: red;
+}
+
+i.fas.fa-tasks {
+    color: grey;
+}

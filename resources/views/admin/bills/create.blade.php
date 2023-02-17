@@ -602,9 +602,9 @@
         html += '<div id="itemdetails">';
         html += '<h4>'+item_description+'</h4>';
         html += '<div id="itemActionsBtns">';
-        html += '<a href="#" >Assign</a>';
-        html += '<a href="#" >Edit</a>';
-        html += '<a href="#" >Delete</a>';
+        html += '<a href="#" ><i class="fas fa-tasks"></i></a>';
+        html += '<a href="#" ><i class="fas fa-edit" ></i></a>';
+        html += '<a href="#" ><i class="fas fa-trash"></i></a>';
         html += '</div>';
         html += '</div>';
 
