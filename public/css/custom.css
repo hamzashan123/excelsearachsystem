@@ -624,3 +624,14 @@ a.btn.btn-success.pull-right.mb-5 {
     align-items: center;
 }
 
+.itemslisting {
+    width: 60%;
+    display: inline-block;
+}
+
+.hostguestlisting {
+    width: 40%;
+    display: inline-block;
+}
+
+.itemsdiv {display: flex;}
