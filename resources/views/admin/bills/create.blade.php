@@ -666,6 +666,7 @@
                             html += '<p> '+key.item_saving +'% Off</p>';
                             html += '<p>£'+eachItemDiscountPrice+'</p>';
                             html += '</div>';
+                            html += '<hr>';
                             $('.itemslisting').append(html); 
                             
                             
@@ -756,6 +757,7 @@
                                  html += '<p> '+key.item_saving +'% Off</p>';
                                  html += '<p>£'+eachItemDiscountPrice+'</p>';
                                  html += '</div>';
+                                 html += '<hr>';
                                  $('.itemslisting').append(html); 
                                  
                                  

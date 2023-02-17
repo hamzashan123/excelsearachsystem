@@ -683,3 +683,8 @@ div#itemActionsBtns {
 .itemActionsBtns i.fas.fa-tasks {
     color: grey;
 }
+
+div#itemdetails {
+    position: relative;
+    top: -20px;
+}
