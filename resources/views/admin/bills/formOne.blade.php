@@ -5,7 +5,8 @@
 <div class="row">
               
               <div class="col-md-12 mx-0">
-              
+                 <div class="card">
+                    <div class="card-body">
                   <form id="msform" action="{{route('admin.bill.form.one.save')}}" method="post">
                       @csrf
                       
@@ -75,6 +76,8 @@
 
                       
                   </form>
+                  </div>
+                 </div>
               </div>
     </div>
 </div>

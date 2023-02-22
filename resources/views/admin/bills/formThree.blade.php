@@ -10,7 +10,8 @@
 <div class="container">
     <div class="row">
     <div class="col-md-12 mx-0">
-              
+    <div class="card">
+                    <div class="card-body">
               <form id="msform" action="{{route('admin.bill.form.one.save')}}" method="post">
                   @csrf
                 <div class="form-card">
@@ -132,6 +133,8 @@
                              <br><br>
                              <!-- <a href="{{route('admin.bill.form.two',[ 'bill_id' => $bill_id])}}" class="btn btn-success">Back</a> -->
               </form>
+                    </div>
+                </div>
     </div>
     </div>
 </div>

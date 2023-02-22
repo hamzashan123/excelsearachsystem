@@ -11,7 +11,8 @@
 <div class="row">
               
               <div class="col-md-12 mx-0">
-              
+              <div class="card">
+                    <div class="card-body">
                   <form id="msform" action="{{route('admin.bill.form.two.save')}}" method="post">
                       @csrf
                                 <h3>Host</h3>
@@ -81,6 +82,8 @@
                                 
                                    
                             </form>
+              </div>
+            </div>
               </div>
     </div>
 </div>
