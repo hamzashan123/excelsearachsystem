@@ -85,7 +85,7 @@ class NewBillController extends Controller
                 ]);
             }
         }
-        return redirect()->route('admin.bill.form.one',['bill_id' => $Id]);
+        return redirect()->route('admin.bill.form.two',['bill_id' => $Id]);
     }
 
     public function saveFormTwo(Request $request){
@@ -111,7 +111,7 @@ class NewBillController extends Controller
             } 
         }
 
-        return redirect()->route('admin.bill.form.two',['bill_id' => $bill_id]);
+        return redirect()->route('admin.bill.form.three',['bill_id' => $bill_id]);
     }
 
     public function saveItems(Request $request){
