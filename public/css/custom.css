@@ -684,7 +684,91 @@ div#itemActionsBtns {
     color: grey;
 }
 
-div#itemdetails {
-    position: relative;
-    top: -20px;
+
+
+.card-body input[type="text"], .card-body input[type="number"] {
+    height: 50px !important;
+    border-radius: 0px !important;
+}
+
+.fullservice {
+    display: flex;
+    /* justify-content: center; */
+    margin-top: 10px;
+    align-items: center;
+}
+
+.fullservice input {
+    width: auto;
+}
+
+.fullservice label {
+    margin-bottom: 0px;
+    margin-left: 10px;
+}
+
+.fullservice input {
+    transform: scale(1.5);
+}
+
+a#add_discount_types {
+    background: #4caf50;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0px;
+    cursor: pointer;
+    padding: 10px 25px !important;
+}
+
+a#add_guest {
+    background: #4caf50;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0px;
+    cursor: pointer;
+    padding: 10px 25px !important;
+}
+
+
+
+.totalCalculation span {
+    line-height: 38px;
+    font-size: 20px;
+}
+
+input#btn_addItemModal {
+    background: #4caf50;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0px;
+    cursor: pointer;
+    padding: 10px 25px !important;
+    height: auto !important;
+    font-size: 20px;
+}
+
+.modal-content {
+    padding-left: 0px !important;
+}
+
+form {
+    padding: 20px;
+    width: 100%;
+}
+
+
+
+form input {
+    background: #4caf50;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0px !important;
+    cursor: pointer;
+    padding: 10px 25px !important;
+    height: auto !important;
+    font-size: 20px;
 }

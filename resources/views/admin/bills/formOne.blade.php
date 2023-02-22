@@ -92,8 +92,10 @@
             html += '<input type="text" name="types[]" class="form-control" placeholder="Enter Type">';
             html += '<label for="type">Discount: </label>';
             html += '<input type="text" name="discount[]" class="form-control" placeholder="Enter discount Percentage">';
-            html += '<label for="type">Service on full price? </label>';
+            html += '<div class="fullservice">';
             html += '<input type="checkbox" class="form-control" id="full_price" name="full_price[]"/>';
+            html += '<label for="type">Service on full price? </label>';
+            html += '</div>';
             html += '<button id="removeRow" type="button" class="btn btn-danger" style="margin-top:10px;" >Remove</button>';
             html += '</div>';
             html += '</div>';

@@ -36,9 +36,9 @@
 
                                                         @endphp
 
-                                                        <h4>{{$item->item_description}}</h4>
+                                                       
                                                         <div id="itemActionsBtns">
-
+                                                        <h4>{{$item->item_description}}</h4>
                                                             
                                                             @if($item->quantity > $item->itemPurchases->sum('assigned_quantity')) 
                                                             <a href="#" disabled  class="assignItem" data-assignedQuantity="{{$item->itemPurchases->sum('assigned_quantity')}}" data-itemid="{{$item->id}}" data-item_description="{{$item->item_description}}"   data-item_price="{{$item->item_price}}"  data-quantity="{{$item->quantity}}" data-category="{{$item->category}}"><i class="fas fa-tasks"></i></a>
@@ -47,12 +47,13 @@
                                                             @endif
                                                             
                                                             <a href="#" class="editItem" data-itemid="{{$item->id}}" data-item_description="{{$item->item_description}}"   data-item_price="{{$item->item_price}}"  data-quantity="{{$item->quantity}}" data-category="{{$item->category}}"><i class="fas fa-edit"></i></a>
-                                                            <a href="{{route('admin.bills.item.delete',['id' => $item->id])}}" class="assignItem" data-itemid="" data-item_description=""   data-item_price=""  data-quantity="" data-category=""><i class="fas fa-trash"></i></a>
+                                                            <a href="{{route('admin.bills.item.delete',['id' => $item->id])}}"  data-itemid="" data-item_description=""   data-item_price=""  data-quantity="" data-category=""><i class="fas fa-trash"></i></a>
                                                         </div>
-
-                                                        <p><del>£{{$eachItemPrice}}</del></p>
-                                                        <p> {{$item->item_saving}} % Off</p>
-                                                        <p>£{{$eachItemDiscountPrice}}</p>
+                                                        <div class="itemContent" >
+                                                        <p>Total: <del> £{{$eachItemPrice}}</del></p>
+                                                        <p> Saving: {{$item->item_saving}} % Off</p>
+                                                        <p> Total After Discount: £{{$eachItemDiscountPrice}}</p>
+                                                        </div>
                                                         @endforeach
                                                     @endif
                                                   
@@ -144,13 +145,14 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="padding-left: 47px;">
             <div class="modal-header"> 
+                <h4>Add/Update Item</h4>
                 <button type="button" class="close" id="close-modal" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                
-                <div class="row">
+               
 
 
                     <form method="post" action="{{route('admin.bills.item.store')}}">
@@ -187,7 +189,7 @@
                         </div>
                     </form>
 
-                </div>
+                
 
             </div>
 
@@ -200,15 +202,14 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="padding-left: 47px;">
             <div class="modal-header"> 
+               <h4>Assign Item</h4>
                 <button type="button" class="close" id="close-modal" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                
-                <div class="row">
-
-
+            
                     <form method="post" action="{{route('admin.bills.item.assign')}}">
                          
                         @csrf
@@ -237,7 +238,7 @@
                         </div>
                     </form>
 
-                </div>
+              
 
             </div>
 
@@ -250,6 +251,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="padding-left: 47px;">
             <div class="modal-header"> 
+            
             <h4> <span id="selected_guesthost_name"></span></h4>
                 <button type="button" class="close" id="close-modal" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -257,7 +259,7 @@
             </div>
             <div class="modal-body">
                
-                <div class="row">
+                
 
 
                     <form method="post" action="{{route('admin.bills.item.assign')}}">
@@ -283,7 +285,7 @@
 
                     </form>
 
-                </div>
+               
 
             </div>
 
