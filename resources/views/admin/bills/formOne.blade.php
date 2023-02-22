@@ -67,7 +67,7 @@
 
                           </div>
                           @if(empty($bill))
-                          <input type="submit" name="saveFormOne" class="next action-button" value="Save"/>
+                          <input type="submit" name="saveFormOne" class="next action-button" value="Continue"/>
                           @endif
                           @if(isset($bill))
                           <!-- <input type="submit" name="updateFormOne" class="next action-button" value="Update"/> -->

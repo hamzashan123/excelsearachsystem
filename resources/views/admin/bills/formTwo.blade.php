@@ -65,7 +65,7 @@
 
                                 <!-- <a href="{{route('admin.bill.form.one',[ 'bill_id' => $bill_id])}}" class="btn btn-secondary">Back</a> -->
                                 @if(empty($host->name))
-                                <input type="submit" name="saveFormTwo" class="next action-button btn btn-success" value="Save"/>
+                                <input type="submit" name="saveFormTwo" class="next action-button btn btn-success" value="Continue"/>
                                 @endif
 
 
