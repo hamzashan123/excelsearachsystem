@@ -10,7 +10,8 @@
                 <div class="card-body">
                     
                     <h3>View My Bills</h3>
-                    <a href="{{route('admin.bills.create')}}" class="btn btn-success pull-right mb-5">Create New Bill</a>
+                    <!-- <a href="{{route('admin.bills.create')}}" class="btn btn-success pull-right mb-5">Create New Bill</a> -->
+                    <a href="{{route('admin.bill.form.one')}}" class="btn btn-success pull-right mb-5">Create New Bill</a>
   
                     @if (Session::has('message'))
                         <div class="alert alert-info">{{ Session::get('message') }}</div>
@@ -28,7 +29,10 @@
                             <tr>
                                 <th scope="row">{{$bill->id}}</th>
                                 <td>{{$bill->title}}</td>
-                                <td><a href="{{route('admin.bills.delete',['id' => $bill->id])}}"  class="btn btn-danger"><i class="fas fa-trash"></i></a></td>
+                                <td>
+                                <a href="{{route('admin.bill.form.three',['bill_id' => $bill->id])}}"  class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                                    <a href="{{route('admin.bills.delete',['id' => $bill->id])}}"  class="btn btn-danger"><i class="fas fa-trash"></i></a> 
+                                    </td>
                             </tr>
                         @endforeach
                         </tbody>

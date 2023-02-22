@@ -427,7 +427,7 @@
                 var html = '';
                 html += '<div class="form-group hosts">';
                 html += '<p>'+data.host.name+'</p>';
-                html += '<p>£'+data.host.deposit+'</p>';
+                html += '<p>£'+  -data.host.deposit  +'</p>';
                 html += '</div>';
                 $('.hostguestlisting').append(html);
 
@@ -435,7 +435,7 @@
                     var html = '';
                     html += '<div class="form-group guests">';
                     html += '<p>'+key.name+'</p>';
-                    html += '<p>£'+ -key.deposit+'</p>';
+                    html += '<p>£'+  -key.deposit  +'</p>';
                     html += '</div>'; 
                     
                     $('.hostguestlisting').append(html);

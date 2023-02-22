@@ -21,7 +21,10 @@ class BillController extends Controller
         return view('admin.bills.create');
     }
 
-    
+    public function viewBill(int $bill_id){
+         $bill = DB::table('bills')->where('id',$bill_id)->first();
+         return view('admin.bills.step1',compact('bill'));
+    }
 
     
 
