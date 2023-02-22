@@ -72,16 +72,45 @@
                                         <div class="hostguestlisting">
                                             
                                             @if(count($host_guests) > 0 )
+                                                
                                                 @foreach($host_guests as $host_guest)
+                                                 @php
+                                                   $host_guests_items = App\ItemsPurchases::with('getItems')->where('bill_id',$bill->id)
+                                                   ->where('host_guest_id',$host_guest->id)
+                                                   ->get();
+                                                    $grandTotal = 0;
+                                                
+                                            foreach($host_guests_items as $hg_data){
+                                                if(isset($hg_data->getItems->item_price)){
+                                                    $eachItemPrice = $hg_data->getItems->item_price;
+                                                    $QuantityPrice = $eachItemPrice * $hg_data->assigned_quantity;
+                                                    $eachItemPercentage = ( $QuantityPrice / 100 ) * $hg_data->getItems->item_saving;
+                                                    $eachItemDiscountPrice = $QuantityPrice - $eachItemPercentage;
+                                                    if($hg_data->getItems->full_price == true){
+                                                                    
+                                                     $serviceCharges = ( $QuantityPrice / 100 ) * 12.5;
+                                                     }else{
+                                                                                     
+                                                         $serviceCharges = ( $eachItemDiscountPrice / 100 ) * 12.5;
+                                                    }
+                                                    
+                                                    $grandTotal = $grandTotal + $eachItemDiscountPrice + $serviceCharges;
+                                                }
+                                            }
+                                               
+                                                    
+                                                
+                                                 
+                                                 @endphp
                                                 @if($host_guest->type == 'host')
-                                                <div class="form-group hosts personData" data-hostguest_id={{$host_guest->id}} data-selected_guesthost_name={{ $host_guest->name }}>
+                                                <div class="form-group hosts personData" data-hostguest_id={{$host_guest->id}} data-selected_guesthost_name={{ $host_guest->name }} data-selected_guesthost_deposit={{$host_guest->deposit}}>
                                                     <p>{{ $host_guest->name }}</p>
-                                                    <p>£{{ -$host_guest->deposit}}</p>
+                                                    <p>£{{ $grandTotal - $host_guest->deposit}}</p>
                                                     </div>
                                                 @else
-                                                <div class="form-group guests personData" data-hostguest_id={{$host_guest->id}} data-selected_guesthost_name={{ $host_guest->name }}>
+                                                <div class="form-group guests personData" data-hostguest_id={{$host_guest->id}} data-selected_guesthost_name={{ $host_guest->name }} data-selected_guesthost_deposit={{$host_guest->deposit}}>
                                                     <p>{{$host_guest->name}}</p>
-                                                    <p>£{{-$host_guest->deposit}}</p>
+                                                    <p>£{{ $grandTotal - $host_guest->deposit}}</p>
                                                 </div>
                                                 @endif
                                                 @endforeach
@@ -423,6 +452,8 @@
             var grandTotal = 0;
             console.log($(this).attr('data-hostguest_id'));
             var assignGuestHostName = $(this).attr('data-selected_guesthost_name');
+            var assignGuestHostDeposit = $(this).attr('data-selected_guesthost_deposit');
+            console.log(assignGuestHostDeposit);
             $('#selected_guesthost_name').text("(" + assignGuestHostName + ")");
             $('.personItemdata').empty();
             bill_id = '<?php echo $bill_id;?>'
@@ -460,6 +491,7 @@
                             html += '<p>Total: <span> £'+QuantityPrice+' </span></p>'; 
                             html += '<p>Saving: £'+eachItemPercentage+'</p>'; 
                             html += ' <p>Service Charges: £'+serviceCharges+'</p>';
+                            
                             html += ' <p>Total After Discount: £'+eachItemDiscountPrice+'</p>';
                             
                             html += '</div>';
@@ -470,7 +502,8 @@
                     
                     var html = '';
                         html += '<div class="col-md-6 items_name">'; 
-                        html += ' <p><strong> Grand Total: £'+ grandTotal +'</strong> </p>';
+                        html += ' <p><strong> Deposit: £'+ assignGuestHostDeposit  +'</strong> </p>';
+                        html += ' <p><strong> Grand Total: £'+ (grandTotal - assignGuestHostDeposit ) +'</strong> </p>';
                         html += '</div>';
 
                     $('.personItemdata').append(html);

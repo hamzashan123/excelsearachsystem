@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Items;
 use App\ItemsPurchases;
+use App\HostGuest;
 
 class NewBillController extends Controller
 {
@@ -57,8 +58,8 @@ class NewBillController extends Controller
         if(!empty($bill_id)){
             $bill = DB::table('bills')->where('id',$bill_id)->first();
             
-            $host_guests = DB::table('host_guests')->where('bill_id',$bill_id)->get();
-
+            $host_guests = HostGuest::with('hostGuestPurchases')->with('hostGuestItems')->where('bill_id',$bill_id)->get();
+            //dd($host_guests[0]);
             $items = Items::with('itemPurchases')->get();   
            
             return view('admin.bills.formThree',compact('bill','host_guests','items'));
@@ -150,6 +151,7 @@ class NewBillController extends Controller
     public function deleteItems(Request $request){
         if(!empty($request->id)){
             DB::table('items')->where('id',$request->id)->delete();
+            DB::table('items_purchases')->where('item_id',$request->id)->delete();
             return redirect()->back()->with('success','Item Delted');
         }
        

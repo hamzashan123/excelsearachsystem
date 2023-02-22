@@ -13,4 +13,10 @@ class HostGuest extends Model
         return $this->hasMany('App\ItemsPurchases', 'host_guest_id','id');
     
     }
+
+    public function hostGuestItems(){
+        
+        return $this->hasOne('App\Items', 'id','id');
+    
+    }
 }

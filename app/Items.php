@@ -14,7 +14,7 @@ class Items extends Model
         return $this->hasMany('App\ItemsPurchases', 'item_id','id');
     }
 
-    public function discountTypes(){
-        return $this->hasOne('App\DiscountTypes', 'id','bill_id');
-    }
+    // public function discountTypes(){
+    //     return $this->hasOne('App\DiscountTypes', 'id','bill_id');
+    // }
 }

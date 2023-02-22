@@ -777,3 +777,25 @@ form input {
     font-size: 22px;
     margin-bottom: 0px;
 }
+
+@media only screen and (max-width:768px) {
+    .main-content {
+        padding-top: 150px !important;
+    }
+    
+    
+    .itemslisting {
+        width: 100%;
+        display: block !important;
+    }
+    
+    .hostguestlisting {
+        width: 100%;
+        display: block !important;
+    }
+    
+    .itemsdiv {
+        display: block;
+    }
+    
+    }
