@@ -772,3 +772,8 @@ form input {
     height: auto !important;
     font-size: 20px;
 }
+
+.itemContent p {
+    font-size: 22px;
+    margin-bottom: 0px;
+}
