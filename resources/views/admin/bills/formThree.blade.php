@@ -39,7 +39,7 @@
                                                        
                                                         <div id="itemActionsBtns">
                                                         <h4>{{$item->item_description}}</h4>
-                                                            
+                                                          <div class="threeBtns">    
                                                             @if($item->quantity > $item->itemPurchases->sum('assigned_quantity')) 
                                                             <a href="#" disabled  class="assignItem" data-assignedQuantity="{{$item->itemPurchases->sum('assigned_quantity')}}" data-itemid="{{$item->id}}" data-item_description="{{$item->item_description}}"   data-item_price="{{$item->item_price}}"  data-quantity="{{$item->quantity}}" data-category="{{$item->category}}"><i class="fas fa-tasks"></i></a>
                                                             @else
@@ -48,6 +48,7 @@
                                                             
                                                             <a href="#" class="editItem" data-itemid="{{$item->id}}" data-item_description="{{$item->item_description}}"   data-item_price="{{$item->item_price}}"  data-quantity="{{$item->quantity}}" data-category="{{$item->category}}"><i class="fas fa-edit"></i></a>
                                                             <a href="{{route('admin.bills.item.delete',['id' => $item->id])}}"  data-itemid="" data-item_description=""   data-item_price=""  data-quantity="" data-category=""><i class="fas fa-trash"></i></a>
+                                                           </div>
                                                         </div>
                                                         <div class="itemContent" >
                                                         <p>Total: <del> £{{$eachItemPrice}}</del></p>
