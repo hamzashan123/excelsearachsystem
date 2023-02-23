@@ -465,9 +465,9 @@ li.viewbill a {
     align-items: center;
 }
 .loginform {
-    width: 50%;
+    /* width: 50%; */
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-    padding: 80px;
+    /* padding: 80px; */
     border-radius: 15px;
 }
 .loginform .input-group.mb-4 {
