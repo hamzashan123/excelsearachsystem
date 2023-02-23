@@ -247,6 +247,14 @@ class NewBillController extends Controller
         }catch(Exception $e){
             
         }
+
+        try{
+            DB::table('items_purchases')
+            ->where('bill_id',$id)
+            ->delete();
+        }catch(Exception $e){
+            
+        }
                    
 
         return redirect()->back()->with('success','Bill Deleted');
