@@ -784,7 +784,7 @@ form input {
     }
     
     
-    .itemslisting {
+    /* .itemslisting {
         width: 100%;
         display: block !important;
     }
@@ -792,10 +792,39 @@ form input {
     .hostguestlisting {
         width: 100%;
         display: block !important;
-    }
+    } */
     
-    .itemsdiv {
+    /* .itemsdiv {
         display: block;
+    } */
+
+    .threeBtns {
+        display: flex;
+        justify-content: space-between;
+    }
+    .itemContent p {
+        font-size: 15px;
+    }
+
+    .totalCalculation span {
+        font-size: 14px;
+        line-height: 24px;
+    }
+
+    #msform {
+        padding: 0;
+    }
+    
+    div#itemActionsBtns {
+        display: flex;
+        flex-direction: column;
+    }
+    div#mainContent .p-20 {
+        padding: 0px !important;
     }
     
     }
+
+    
+    
+    
