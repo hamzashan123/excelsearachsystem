@@ -180,14 +180,22 @@ class NewBillController extends Controller
     }
 
     public function assignItems(Request $request){
-
+        
         if(!empty($request->bill_id)){
-            DB::table('items_purchases')->insertGetId([
-                'bill_id' => $request->bill_id,
-                'item_id' => $request->assigned_item_id,
-                'host_guest_id' => $request->host_guest_id,
-                'assigned_quantity' => $request->assigned_quantity,
-            ]);
+            if(count($request->host_guest_id) > 0){
+                $assignedQuantity = ($request->assigned_quantity / count($request->host_guest_id) ) ;
+               
+                foreach($request->host_guest_id as $host_guest_id){
+
+                    DB::table('items_purchases')->insertGetId([
+                        'bill_id' => $request->bill_id,
+                        'item_id' => $request->assigned_item_id,
+                        'host_guest_id' => $host_guest_id,
+                        'assigned_quantity' => $assignedQuantity,
+                    ]);
+                }
+            }
+
             return redirect()->back();
         }
 

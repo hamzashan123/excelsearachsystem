@@ -1,4 +1,5 @@
 ﻿@extends('layouts.admin')
+
   
 @php
     if(isset($_GET['bill_id'])){
@@ -53,7 +54,7 @@
                                                         <div class="itemContent" >
                                                         <p>Total: <del> £{{$eachItemPrice}}</del></p>
                                                         <p> Saving: {{$item->item_saving}} % Off</p>
-                                                        <p> Total After Discount: £{{$eachItemDiscountPrice}}</p>
+                                                        <p> Total After Discount: £{{number_format($eachItemDiscountPrice,2)}}</p>
                                                         </div>
                                                         @endforeach
                                                     @endif
@@ -106,12 +107,12 @@
                                                 @if($host_guest->type == 'host')
                                                 <div class="form-group hosts personData" data-hostguest_id={{$host_guest->id}} data-selected_guesthost_name={{ $host_guest->name }} data-selected_guesthost_deposit={{$host_guest->deposit}}>
                                                     <p>{{ $host_guest->name }}</p>
-                                                    <p>£{{ $grandTotal - $host_guest->deposit}}</p>
+                                                    <p>£{{ number_format($grandTotal - $host_guest->deposit,2)}}</p>
                                                     </div>
                                                 @else
                                                 <div class="form-group guests personData" data-hostguest_id={{$host_guest->id}} data-selected_guesthost_name={{ $host_guest->name }} data-selected_guesthost_deposit={{$host_guest->deposit}}>
                                                     <p>{{$host_guest->name}}</p>
-                                                    <p>£{{ $grandTotal - $host_guest->deposit}}</p>
+                                                    <p>£{{ number_format($grandTotal - $host_guest->deposit , 2)}}</p>
                                                 </div>
                                                 @endif
                                                 @endforeach
@@ -153,10 +154,10 @@
                                                     @endphp
                                                     <span> {{$item->category}} ({{$item->item_description}}) Total:<span> <del>£{{$eachItemPrice}} </del> £{{$eachItemDiscountPrice}}</span></span> <br>
                                                     <span> Saving :   <span>£{{$savingPrice}}</span></span><br>
-                                                    <span> Service :   <span> £{{$serviceCharges}}</span></span><br>
+                                                    <span> Service :   <span> £{{number_format($serviceCharges,2)}}</span></span><br>
                                                    
                                                 @endforeach
-                                                <strong> <span> Grand Total:  <span> £{{$itemsCategoryDiscountedPrice}}</span> </span></strong>
+                                                <strong> <span> Grand Total:  <span> £{{ number_format($itemsCategoryDiscountedPrice,2)}}</span> </span></strong>
                                             @endif    
                                         </div>
                                         
@@ -251,8 +252,8 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                    <select name="host_guest_id" id="host_guest_id" class="form-control" required>
-                                        
+                                    <select name="host_guest_id[]"  multiple id="host_guest_id" class="form-control" required>
+                                       
                                     </select>
                             </div>
 
@@ -326,6 +327,9 @@
 
 
 <script>
+       
+        
+        
         $("#btn_addItemModal").click(function () {
 
             
@@ -422,6 +426,7 @@
                 html += '<option value='+selectedQuantity+'>'+selectedQuantity+'</option>';      
                 $('#assigned_quantity').append(html);
             }
+
             
             
             bill_id = '<?php echo $bill_id;?>'
@@ -434,7 +439,7 @@
             
                     $('#host_guest_id').find('option').remove();
                     var html = '';
-                    html += '<option value="" selected disabled>Select</option>';
+                    html += '<option value=""  disabled>Select</option>';
                     $('#host_guest_id').append(html);
 
                     data.host_guests.forEach(key => {
@@ -442,6 +447,7 @@
                             html += '<option value='+key.id+'>'+key.name+'</option>';      
                         $('#host_guest_id').append(html);
                     });
+                    $('#host_guest_id').select2();
                    
                    
             });
@@ -487,13 +493,13 @@
                             html += '<h4>'+key.get_items.item_description+'</h4>'; 
                             html += '</div>';
                             html += '<div class="col-md-6 items_pricing">'; 
-                            html += '<p>Each Item Price:  £'+eachItemPrice+'</p>'; 
-                            html += '<p>Quantity: '+key.assigned_quantity+' </p>'; 
-                            html += '<p>Total: <span> £'+QuantityPrice+' </span></p>'; 
-                            html += '<p>Saving: £'+eachItemPercentage+'</p>'; 
-                            html += ' <p>Service Charges: £'+serviceCharges+'</p>';
+                            html += '<p>Each Item Price:  £'+eachItemPrice.toFixed(2)+'</p>'; 
+                            html += '<p>Quantity: '+key.assigned_quantity.toFixed(2)+' </p>'; 
+                            html += '<p>Total: <span> £'+QuantityPrice.toFixed(2)+' </span></p>'; 
+                            html += '<p>Saving: £'+eachItemPercentage.toFixed(2)+'</p>'; 
+                            html += ' <p>Service Charges: £'+serviceCharges.toFixed(2)+'</p>';
                             
-                            html += ' <p>Total After Discount: £'+eachItemDiscountPrice+'</p>';
+                            html += ' <p>Total After Discount: £'+eachItemDiscountPrice.toFixed(2)+'</p>';
                             
                             html += '</div>';
                             grandTotal = grandTotal +   eachItemDiscountPrice + serviceCharges;       
@@ -504,7 +510,7 @@
                     var html = '';
                         html += '<div class="col-md-6 items_name">'; 
                         html += ' <p><strong> Deposit: £'+ assignGuestHostDeposit  +'</strong> </p>';
-                        html += ' <p><strong> Grand Total: £'+ (grandTotal - assignGuestHostDeposit ) +'</strong> </p>';
+                        html += ' <p><strong> Grand Total: £'+ (grandTotal - assignGuestHostDeposit ).toFixed(2) +'</strong> </p>';
                         html += '</div>';
 
                     $('.personItemdata').append(html);

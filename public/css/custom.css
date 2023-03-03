@@ -778,30 +778,16 @@ form input {
     margin-bottom: 0px;
 }
 
+.modal-content form p {
+    margin-bottom: 0px;
+}
 @media only screen and (max-width:768px) {
     .main-content {
         padding-top: 150px !important;
     }
     
-    
-    /* .itemslisting {
-        width: 100%;
-        display: block !important;
-    }
-    
-    .hostguestlisting {
-        width: 100%;
-        display: block !important;
-    } */
-    
-    /* .itemsdiv {
-        display: block;
-    } */
 
-    .threeBtns {
-        display: flex;
-        justify-content: space-between;
-    }
+    
     .itemContent p {
         font-size: 15px;
     }
@@ -815,16 +801,18 @@ form input {
         padding: 0;
     }
     
-    div#itemActionsBtns {
-        display: flex;
-        flex-direction: column;
-    }
+    
     div#mainContent .p-20 {
         padding: 0px !important;
     }
     
-    }
+}
+div#itemActionsBtns {
+    display: flex;
+    flex-direction: column;
+}
 
-    
-    
-    
+.threeBtns {
+    display: flex;
+    justify-content: space-between;
+}
